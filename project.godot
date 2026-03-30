@@ -18,6 +18,10 @@ boot_splash/use_filter=false
 boot_splash/image="uid://dum8g2ltuec7r"
 config/icon="uid://dum8g2ltuec7r"
 
+[autoload]
+
+Globals="*uid://cvje257w41p3n"
+
 [display]
 
 window/size/viewport_width=150

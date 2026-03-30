@@ -5,6 +5,10 @@ var baseEyePos := Vector2(3, -3.5)
 @onready var eyeNode := $Eye
 @onready var pupilNode := $Eye/Pupil
 
+func _ready() -> void:
+	animation = "idle" + Globals.duckColor
+	play()
+
 func _process(_delta: float) -> void:
 	followMouse()
 
