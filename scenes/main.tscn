@@ -10,3 +10,9 @@ script = ExtResource("1_0wfyh")
 
 [node name="Camera" type="Camera2D" parent="." unique_id=335239124]
 zoom = Vector2(10, 10)
+
+[node name="ClickTimer" type="Timer" parent="." unique_id=856835332]
+wait_time = 0.2
+one_shot = true
+
+[connection signal="timeout" from="ClickTimer" to="." method="_on_click_timer_timeout"]

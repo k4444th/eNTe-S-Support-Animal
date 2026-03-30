@@ -169,7 +169,7 @@ animations = [{
 
 [node name="Duck" type="AnimatedSprite2D" unique_id=498349217]
 sprite_frames = SubResource("SpriteFrames_tils5")
-animation = &"idleYellow"
+animation = &"idleDarkBlue"
 script = ExtResource("2_ircvx")
 
 [node name="Eye" type="Sprite2D" parent="." unique_id=132972965]
