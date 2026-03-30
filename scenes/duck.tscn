@@ -3,12 +3,13 @@
 [ext_resource type="Texture2D" uid="uid://re2k0ao8hpkm" path="res://assets/DuckDarkBlue.png" id="1_ql0qm"]
 [ext_resource type="Script" uid="uid://dg3pkx1rbjddv" path="res://scripts/duck.gd" id="2_ircvx"]
 [ext_resource type="Texture2D" uid="uid://hi750snn6ndd" path="res://assets/Pupil.png" id="2_tils5"]
+[ext_resource type="Texture2D" uid="uid://dmj3i21phk6pn" path="res://assets/Eye.png" id="3_kls7j"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_ql0qm"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_ircvx"]
 atlas = ExtResource("1_ql0qm")
 region = Rect2(0, 0, 15, 14)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_tils5"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_kls7j"]
 atlas = ExtResource("1_ql0qm")
 region = Rect2(15, 0, 15, 14)
 
@@ -16,10 +17,10 @@ region = Rect2(15, 0, 15, 14)
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_ql0qm")
+"texture": SubResource("AtlasTexture_ircvx")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_tils5")
+"texture": SubResource("AtlasTexture_kls7j")
 }],
 "loop": true,
 "name": &"idle",
@@ -35,7 +36,10 @@ script = ExtResource("2_ircvx")
 
 [node name="Eye" type="Sprite2D" parent="." unique_id=132972965]
 position = Vector2(3, -3.5)
-scale = Vector2(0.4, 0.4)
+texture = ExtResource("3_kls7j")
+
+[node name="Pupil" type="Sprite2D" parent="Eye" unique_id=158870893]
+scale = Vector2(0.5, 0.5)
 texture = ExtResource("2_tils5")
 
 [connection signal="frame_changed" from="." to="." method="_on_frame_changed"]
