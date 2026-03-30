@@ -13,7 +13,10 @@ config_version=5
 config/name="eNTe S Support Animal"
 run/main_scene="uid://bgj31oo4db3at"
 config/features=PackedStringArray("4.6", "Forward Plus")
-config/icon="res://icon.svg"
+boot_splash/bg_color=Color(1, 1, 1, 0)
+boot_splash/use_filter=false
+boot_splash/image="uid://dum8g2ltuec7r"
+config/icon="uid://dum8g2ltuec7r"
 
 [display]
 
