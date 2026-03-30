@@ -1,0 +1,12 @@
+[gd_scene format=3 uid="uid://bgj31oo4db3at"]
+
+[ext_resource type="Script" uid="uid://dbo5idgmudy6v" path="res://scripts/main.gd" id="1_0wfyh"]
+[ext_resource type="PackedScene" uid="uid://bd4ejfb7x0luj" path="res://scenes/duck.tscn" id="1_o5qli"]
+
+[node name="Main" type="Node2D" unique_id=930802233]
+script = ExtResource("1_0wfyh")
+
+[node name="Duck" parent="." unique_id=498349217 instance=ExtResource("1_o5qli")]
+
+[node name="Camera" type="Camera2D" parent="." unique_id=335239124]
+zoom = Vector2(10, 10)

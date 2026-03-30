@@ -11,8 +11,19 @@ config_version=5
 [application]
 
 config/name="eNTe S Support Animal"
+run/main_scene="uid://bgj31oo4db3at"
 config/features=PackedStringArray("4.6", "Forward Plus")
 config/icon="res://icon.svg"
+
+[display]
+
+window/size/viewport_width=150
+window/size/viewport_height=140
+window/size/borderless=true
+window/size/always_on_top=true
+window/size/transparent=true
+window/subwindows/embed_subwindows=false
+window/per_pixel_transparency/allowed=true
 
 [physics]
 
@@ -20,4 +31,6 @@ config/icon="res://icon.svg"
 
 [rendering]
 
+textures/canvas_textures/default_texture_filter=0
 rendering_device/driver.windows="d3d12"
+viewport/transparent_background=true
