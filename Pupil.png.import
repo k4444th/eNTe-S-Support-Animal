@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dhipqmjkvbya1"
-path="res://.godot/imported/DuckPurple.png-4b389cc44600597f7a1b16bb151da602.ctex"
+uid="uid://cbpldmb4jhype"
+path="res://.godot/imported/Pupil.png-b52a8749df2d553b9781f9317be03619.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/DuckPurple.png"
-dest_files=["res://.godot/imported/DuckPurple.png-4b389cc44600597f7a1b16bb151da602.ctex"]
+source_file="res://Pupil.png"
+dest_files=["res://.godot/imported/Pupil.png-b52a8749df2d553b9781f9317be03619.ctex"]
 
 [params]
 

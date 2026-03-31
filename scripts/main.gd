@@ -6,6 +6,7 @@ var clickPosition := Vector2.ZERO
 
 @onready var clickTimer := $ClickTimer
 @onready var duckNode := $Duck
+@onready var cameraNode := $Camera
 
 func _ready() -> void:
 	var window = get_window()
@@ -15,6 +16,9 @@ func _ready() -> void:
 	window.borderless = true
 	window.always_on_top = true
 	window.unresizable = true
+	
+	window.size = Globals.duckSize * Globals.cameraZoom * 4
+	cameraNode.zoom = Globals.cameraZoom
 	
 	var usableRect := DisplayServer.screen_get_usable_rect()
 	var yPos = usableRect.end.y - window.size.y

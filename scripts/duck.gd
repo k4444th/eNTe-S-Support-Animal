@@ -1,16 +1,17 @@
 extends AnimatedSprite2D
 
 var moving := false
-var baseEyePos := Vector2(3, -3.5)
+var baseEyePos := Vector2(12, -13)
 var moveTime := 0.5
 var moveDistance := 100
 
 @onready var eyeNode := $Eye
 @onready var pupilNode := $Eye/Pupil
+@onready var tailNode := $Tail
 
 func _ready() -> void:
-	animation = "idle" + Globals.duckColor
-	play()
+	play("idle" + Globals.duckColor)
+	tailNode.play("idle" + Globals.duckColor)
 
 func _process(_delta: float) -> void:
 	followMouse()
@@ -20,8 +21,8 @@ func followMouse():
 	var pupilsPos = mousePos
 	pupilsPos.y += 3.5
 	
-	pupilsPos.x = clamp(pupilsPos.x, -0.25, 0.25)
-	pupilsPos.y = clamp(pupilsPos.y, -0.25, 0.25)
+	pupilsPos.x = clamp(pupilsPos.x, -1, 1)
+	pupilsPos.y = clamp(pupilsPos.y, -1, 1)
 	
 	pupilNode.position = pupilsPos
 
@@ -43,9 +44,6 @@ func move(right: bool):
 	positionTween.tween_property(window, "position", window.position + moveVector * moveDistance, 0.5)
 
 func _on_frame_changed() -> void:
-	if frame == 0:
-		baseEyePos.y = -3.5
-	elif frame == 1:
-		baseEyePos.y = -4.5
+	baseEyePos.y = -14 - frame if frame <= 4 else -18 + (frame - 4)
 	
 	eyeNode.position = baseEyePos

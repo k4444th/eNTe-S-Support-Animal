@@ -11,6 +11,10 @@ var colors = [
 	"Yellow"
 ]
 
-var colorIndex = randi_range(0, len(colors) - 1)
+var colorIndex = 1
 
 var duckColor = colors[colorIndex]
+
+var cameraZoom = Vector2(2.5, 2.5)
+
+var duckSize = Vector2(15, 14)

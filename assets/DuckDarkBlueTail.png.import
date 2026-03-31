@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://kpt0ck502a4c"
-path="res://.godot/imported/DuckCyan.png-3c36299091c79b582f7e3f78bd223d80.ctex"
+uid="uid://cwawav81jpb0e"
+path="res://.godot/imported/DuckDarkBlueTail.png-9a56ab2d987c2a36f4eb79dfb12d4d1a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/DuckCyan.png"
-dest_files=["res://.godot/imported/DuckCyan.png-3c36299091c79b582f7e3f78bd223d80.ctex"]
+source_file="res://assets/DuckDarkBlueTail.png"
+dest_files=["res://.godot/imported/DuckDarkBlueTail.png-9a56ab2d987c2a36f4eb79dfb12d4d1a.ctex"]
 
 [params]
 
