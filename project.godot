@@ -32,6 +32,10 @@ window/size/transparent=true
 window/subwindows/embed_subwindows=false
 window/per_pixel_transparency/allowed=true
 
+[gui]
+
+theme/custom_font="uid://b0ess6bxl5hy7"
+
 [physics]
 
 3d/physics_engine="Jolt Physics"
