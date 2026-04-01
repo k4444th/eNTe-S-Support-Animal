@@ -106,8 +106,6 @@ func stopDrag():
 	positionTween.tween_property(window, "position", Vector2i(window.position.x, yPos), flyTime)
 	
 	await positionTween.finished
-	spriteNode.parachuteNode.visible = false
-	
 	spriteNode.parachuteNode.close()
 
 func _on_click_timer_timeout() -> void:
