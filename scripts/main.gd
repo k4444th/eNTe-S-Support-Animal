@@ -99,13 +99,13 @@ func stopDrag():
 	var flyTime = pow(abs(window.position.y - yPos), 0.7) * 0.01
 	var parachuteAnimationDuration = (1 / spriteNode.parachuteNode.sprite_frames.get_animation_speed("opening")) * spriteNode.parachuteNode.sprite_frames.get_frame_count("opening")
 	
-	if flyTime > parachuteAnimationDuration:
+	if flyTime > parachuteAnimationDuration and window.position.y < yPos:
 		spriteNode.parachuteNode.open()
 	
 	var positionTween = get_tree().create_tween().set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CUBIC)
 	positionTween.tween_property(window, "position", Vector2i(window.position.x, yPos), flyTime)
 	
-	if flyTime > parachuteAnimationDuration:
+	if flyTime > parachuteAnimationDuration and window.position.y < yPos:
 		await positionTween.finished
 		spriteNode.parachuteNode.close()
 
