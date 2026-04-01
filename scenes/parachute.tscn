@@ -1,0 +1,92 @@
+[gd_scene format=3 uid="uid://cmyfbvcurakl4"]
+
+[ext_resource type="Texture2D" uid="uid://0yhslims1n5f" path="res://assets/Parachute.png" id="1_vi22e"]
+[ext_resource type="Script" uid="uid://dw7urovgkfvxo" path="res://scripts/parachute.gd" id="2_fshcv"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vi22e"]
+atlas = ExtResource("1_vi22e")
+region = Rect2(180, 0, 60, 72)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fshcv"]
+atlas = ExtResource("1_vi22e")
+region = Rect2(120, 0, 60, 72)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sbufd"]
+atlas = ExtResource("1_vi22e")
+region = Rect2(60, 0, 60, 72)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cuyg8"]
+atlas = ExtResource("1_vi22e")
+region = Rect2(0, 0, 60, 72)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2hfr1"]
+atlas = ExtResource("1_vi22e")
+region = Rect2(240, 0, 60, 72)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_spa78"]
+atlas = ExtResource("1_vi22e")
+region = Rect2(0, 0, 60, 72)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wqico"]
+atlas = ExtResource("1_vi22e")
+region = Rect2(60, 0, 60, 72)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ahner"]
+atlas = ExtResource("1_vi22e")
+region = Rect2(120, 0, 60, 72)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sxetn"]
+atlas = ExtResource("1_vi22e")
+region = Rect2(180, 0, 60, 72)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_spa78"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vi22e")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fshcv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sbufd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cuyg8")
+}],
+"loop": false,
+"name": &"closing",
+"speed": 20.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2hfr1")
+}],
+"loop": false,
+"name": &"open",
+"speed": 40.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_spa78")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wqico")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ahner")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sxetn")
+}],
+"loop": false,
+"name": &"opening",
+"speed": 20.0
+}]
+
+[node name="Parachute" type="AnimatedSprite2D" unique_id=1070859178]
+sprite_frames = SubResource("SpriteFrames_spa78")
+animation = &"closing"
+script = ExtResource("2_fshcv")
+
+[connection signal="animation_finished" from="." to="." method="_on_animation_finished"]

@@ -96,13 +96,19 @@ func stopDrag():
 	var usableRect := DisplayServer.screen_get_usable_rect()
 	var yPos = usableRect.end.y - window.size.y
 	
-	spriteNode.parachuteNode.visible = true
+	var flyTime = pow(abs(window.position.y - yPos), 0.7) * 0.01
+	var parachuteAnimationDuration = (1 / spriteNode.parachuteNode.sprite_frames.get_animation_speed("opening")) * spriteNode.parachuteNode.sprite_frames.get_frame_count("opening")
+	
+	if flyTime > parachuteAnimationDuration:
+		spriteNode.parachuteNode.open()
 	
 	var positionTween = get_tree().create_tween().set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CUBIC)
-	positionTween.tween_property(window, "position", Vector2i(window.position.x, yPos), pow(abs(window.position.y - yPos), 0.7) * 0.005)
+	positionTween.tween_property(window, "position", Vector2i(window.position.x, yPos), flyTime)
 	
 	await positionTween.finished
 	spriteNode.parachuteNode.visible = false
+	
+	spriteNode.parachuteNode.close()
 
 func _on_click_timer_timeout() -> void:
 	if clickPending:
