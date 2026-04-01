@@ -104,4 +104,4 @@ func _on_click_timer_timeout() -> void:
 		hasFirstClick = false
 		clickPending = false
 	
-	duckNode.move(clickPosition.x < get_window().size.x / 2.0)
+	duckNode.talk()

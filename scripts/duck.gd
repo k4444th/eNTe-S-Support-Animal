@@ -2,18 +2,23 @@ extends AnimatedSprite2D
 
 var moving := false
 var baseEyePos := Vector2(12, -14)
+var baseBeakPos := Vector2(0, 0)
 var moveTime := 0.5
 var moveDistance := 100
+var talkCount := 3
+var currentTalkCount := talkCount
 
 @onready var eyeNode := $Eye
 @onready var pupilNode := $Eye/Pupil
 @onready var tailNode := $Tail
+@onready var beakNode := $Beak
 @onready var blinkTimer := $BlinkTimer
 
 func _ready() -> void:
 	play("idle" + Globals.duckColor)
 	tailNode.play("idle" + Globals.duckColor)
 	eyeNode.play("open")
+	beakNode.play("close")
 
 func _process(_delta: float) -> void:
 	followMouse()
@@ -28,27 +33,15 @@ func followMouse():
 	
 	pupilNode.position = pupilsPos
 
-func move(right: bool):
-	if moving:
-		return
-	
-	var window = get_window()
-	var usableRect := DisplayServer.screen_get_usable_rect()
-
-	if window.position.x + window.size.x + moveDistance > usableRect.end.x:
-		right = false
-	elif window.position.x - moveDistance < usableRect.position.x:
-		right = true
-	
-	var moveVector := Vector2i.RIGHT if right else Vector2i.LEFT
-	
-	var positionTween = get_tree().create_tween().set_trans(Tween.TRANS_LINEAR)
-	positionTween.tween_property(window, "position", window.position + moveVector * moveDistance, 0.5)
+func talk():
+	beakNode.play("talk")
 
 func _on_frame_changed() -> void:
-	baseEyePos.y = -14 - frame if frame <= 4 else -18 + (frame - 4)
+	baseEyePos.y = -14 - frame if frame <= 4 else -22 + frame
+	baseBeakPos.y = -frame if frame <= 4 else -8 +frame
 	
 	eyeNode.position = baseEyePos
+	beakNode.position = baseBeakPos
 
 func _on_blink_timer_timeout() -> void:
 	pupilNode.visible = false
@@ -59,3 +52,14 @@ func _on_eye_animation_finished() -> void:
 		eyeNode.play("open")
 		pupilNode.visible = true
 		blinkTimer.start()
+
+func _on_beak_animation_finished() -> void:
+	if beakNode.animation == "talk":
+		beakNode.play("close")
+		if currentTalkCount > 0:
+			var tempTimer = get_tree().create_timer(1 / beakNode.sprite_frames.get_animation_speed("talk"))
+			await  tempTimer.timeout
+			beakNode.play("talk")
+			currentTalkCount -= 1
+		else:
+			currentTalkCount = talkCount

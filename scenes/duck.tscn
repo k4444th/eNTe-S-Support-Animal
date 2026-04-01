@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://dg3pkx1rbjddv" path="res://scripts/duck.gd" id="2_ircvx"]
 [ext_resource type="Texture2D" uid="uid://hi750snn6ndd" path="res://assets/Pupil.png" id="2_tils5"]
 [ext_resource type="Texture2D" uid="uid://dmj3i21phk6pn" path="res://assets/Eye.png" id="3_kls7j"]
+[ext_resource type="Texture2D" uid="uid://d4ih2d3iossgo" path="res://assets/Beak.png" id="4_mwjdu"]
 [ext_resource type="Texture2D" uid="uid://cwawav81jpb0e" path="res://assets/DuckDarkBlueTail.png" id="10_cso76"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_8gupq"]
@@ -122,6 +123,63 @@ animations = [{
 "speed": 10.0
 }]
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_dcbfq"]
+atlas = ExtResource("4_mwjdu")
+region = Rect2(0, 0, 60, 56)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_aqhuf"]
+atlas = ExtResource("4_mwjdu")
+region = Rect2(60, 0, 60, 56)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kkqwh"]
+atlas = ExtResource("4_mwjdu")
+region = Rect2(120, 0, 60, 56)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gsrkv"]
+atlas = ExtResource("4_mwjdu")
+region = Rect2(180, 0, 60, 56)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jeaup"]
+atlas = ExtResource("4_mwjdu")
+region = Rect2(240, 0, 60, 56)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_eynlo"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dcbfq")
+}],
+"loop": false,
+"name": &"close",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_aqhuf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kkqwh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gsrkv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jeaup")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gsrkv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kkqwh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_aqhuf")
+}],
+"loop": false,
+"name": &"talk",
+"speed": 20.0
+}]
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_hwgnm"]
 atlas = ExtResource("3_kls7j")
 region = Rect2(4, 0, 4, 4)
@@ -154,7 +212,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_eynlo")
 }],
-"loop": true,
+"loop": false,
 "name": &"open",
 "speed": 10.0
 }]
@@ -169,10 +227,14 @@ script = ExtResource("2_ircvx")
 sprite_frames = SubResource("SpriteFrames_ctb7n")
 animation = &"idleDarkBlue"
 
+[node name="Beak" type="AnimatedSprite2D" parent="." unique_id=421490155]
+sprite_frames = SubResource("SpriteFrames_eynlo")
+animation = &"talk"
+
 [node name="Eye" type="AnimatedSprite2D" parent="." unique_id=1918667385]
 position = Vector2(12, -14)
 sprite_frames = SubResource("SpriteFrames_dcbfq")
-animation = &"blink"
+animation = &"open"
 
 [node name="Pupil" type="Sprite2D" parent="Eye" unique_id=158870893]
 texture = ExtResource("2_tils5")
@@ -183,5 +245,6 @@ one_shot = true
 autostart = true
 
 [connection signal="frame_changed" from="." to="." method="_on_frame_changed"]
+[connection signal="animation_finished" from="Beak" to="." method="_on_beak_animation_finished"]
 [connection signal="animation_finished" from="Eye" to="." method="_on_eye_animation_finished"]
 [connection signal="timeout" from="BlinkTimer" to="." method="_on_blink_timer_timeout"]
