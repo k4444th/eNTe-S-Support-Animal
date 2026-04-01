@@ -76,13 +76,13 @@ func _input(event: InputEvent) -> void:
 				hasFirstClick = false
 				clickTimer.stop()
 				
-				startDrag(mousePos)
+				startDrag()
 		
 		if isDragging:
 			lastMousePosition = mousePos
 			drag()
 
-func startDrag(pos: Vector2i):
+func startDrag():
 	var window = get_window()
 	dragOffset = window.position - Vector2i(DisplayServer.mouse_get_position())
 
@@ -97,7 +97,7 @@ func stopDrag():
 	var yPos = usableRect.end.y - window.size.y
 	
 	var positionTween = get_tree().create_tween().set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CUBIC)
-	positionTween.tween_property(window, "position", Vector2i(window.position.x, yPos), abs(window.position.y - yPos) / 750.0)
+	positionTween.tween_property(window, "position", Vector2i(window.position.x, yPos), pow(abs(window.position.y - yPos), 0.7) * 0.005)
 
 func _on_click_timer_timeout() -> void:
 	if clickPending:

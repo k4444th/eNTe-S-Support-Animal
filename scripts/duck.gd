@@ -19,7 +19,7 @@ func _process(_delta: float) -> void:
 func followMouse():
 	var mousePos = get_global_mouse_position()
 	var pupilsPos = mousePos
-	pupilsPos.y += 3.5
+	pupilsPos += Vector2(-12, 15)
 	
 	pupilsPos.x = clamp(pupilsPos.x, -1, 1)
 	pupilsPos.y = clamp(pupilsPos.y, -1, 1)
