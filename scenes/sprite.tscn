@@ -1,0 +1,26 @@
+[gd_scene format=3 uid="uid://cxxlcu73gh5ef"]
+
+[ext_resource type="Script" uid="uid://25dfftf0bo2p" path="res://scripts/sprite.gd" id="1_5rfox"]
+[ext_resource type="PackedScene" uid="uid://bd4ejfb7x0luj" path="res://scenes/duck.tscn" id="1_e3o86"]
+[ext_resource type="Texture2D" uid="uid://0yhslims1n5f" path="res://assets/Parachute.png" id="2_2hfr1"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_spa78"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_2hfr1")
+}],
+"loop": true,
+"name": &"open",
+"speed": 5.0
+}]
+
+[node name="Sprite" type="Node2D" unique_id=1921146517]
+script = ExtResource("1_5rfox")
+
+[node name="Parachute" type="AnimatedSprite2D" parent="." unique_id=677963457]
+position = Vector2(0, -40)
+sprite_frames = SubResource("SpriteFrames_spa78")
+animation = &"open"
+
+[node name="Duck" parent="." unique_id=498349217 instance=ExtResource("1_e3o86")]

@@ -12,7 +12,7 @@ var dragOffset := Vector2i.ZERO
 
 
 @onready var clickTimer := $ClickTimer
-@onready var duckNode := $Duck
+@onready var spriteNode := $Sprite
 @onready var cameraNode := $Camera
 
 func _ready() -> void:
@@ -24,7 +24,7 @@ func _ready() -> void:
 	window.always_on_top = true
 	window.unresizable = true
 	
-	window.size = Globals.duckSize * Globals.cameraZoom * 4
+	window.size = Vector2(spriteNode.duckNode.sprite_frames.get_frame_texture("idleDarkBlue", 4).get_width() * Globals.cameraZoom.x, spriteNode.parachuteNode.sprite_frames.get_frame_texture("open", 0).get_height() * Globals.cameraZoom.y + (32 * Globals.cameraZoom.y))
 	cameraNode.zoom = Globals.cameraZoom
 	
 	var usableRect := DisplayServer.screen_get_usable_rect()
@@ -96,12 +96,17 @@ func stopDrag():
 	var usableRect := DisplayServer.screen_get_usable_rect()
 	var yPos = usableRect.end.y - window.size.y
 	
+	spriteNode.parachuteNode.visible = true
+	
 	var positionTween = get_tree().create_tween().set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CUBIC)
 	positionTween.tween_property(window, "position", Vector2i(window.position.x, yPos), pow(abs(window.position.y - yPos), 0.7) * 0.005)
+	
+	await positionTween.finished
+	spriteNode.parachuteNode.visible = false
 
 func _on_click_timer_timeout() -> void:
 	if clickPending:
 		hasFirstClick = false
 		clickPending = false
 	
-	duckNode.talk()
+	spriteNode.duckNode.talk()

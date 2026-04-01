@@ -229,7 +229,7 @@ animation = &"idleDarkBlue"
 
 [node name="Beak" type="AnimatedSprite2D" parent="." unique_id=421490155]
 sprite_frames = SubResource("SpriteFrames_eynlo")
-animation = &"talk"
+animation = &"close"
 
 [node name="Eye" type="AnimatedSprite2D" parent="." unique_id=1918667385]
 position = Vector2(12, -14)

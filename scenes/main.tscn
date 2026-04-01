@@ -1,12 +1,13 @@
 [gd_scene format=3 uid="uid://bgj31oo4db3at"]
 
 [ext_resource type="Script" uid="uid://dbo5idgmudy6v" path="res://scripts/main.gd" id="1_0wfyh"]
-[ext_resource type="PackedScene" uid="uid://bd4ejfb7x0luj" path="res://scenes/duck.tscn" id="1_o5qli"]
+[ext_resource type="PackedScene" uid="uid://cxxlcu73gh5ef" path="res://scenes/sprite.tscn" id="2_0wfyh"]
 
 [node name="Main" type="Node2D" unique_id=930802233]
 script = ExtResource("1_0wfyh")
 
-[node name="Duck" parent="." unique_id=498349217 instance=ExtResource("1_o5qli")]
+[node name="Sprite" parent="." unique_id=1921146517 instance=ExtResource("2_0wfyh")]
+position = Vector2(0, 24)
 
 [node name="Camera" type="Camera2D" parent="." unique_id=335239124]
 zoom = Vector2(2.5, 2.5)
