@@ -122,20 +122,66 @@ animations = [{
 "speed": 10.0
 }]
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_hwgnm"]
+atlas = ExtResource("3_kls7j")
+region = Rect2(4, 0, 4, 4)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mwjdu"]
+atlas = ExtResource("3_kls7j")
+region = Rect2(8, 0, 4, 4)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_eynlo"]
+atlas = ExtResource("3_kls7j")
+region = Rect2(0, 0, 4, 4)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_dcbfq"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hwgnm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mwjdu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hwgnm")
+}],
+"loop": false,
+"name": &"blink",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_eynlo")
+}],
+"loop": true,
+"name": &"open",
+"speed": 10.0
+}]
+
 [node name="Duck" type="AnimatedSprite2D" unique_id=498349217]
 sprite_frames = SubResource("SpriteFrames_tils5")
 animation = &"idleDarkBlue"
+frame_progress = 0.7663075
 script = ExtResource("2_ircvx")
 
 [node name="Tail" type="AnimatedSprite2D" parent="." unique_id=1585374085]
 sprite_frames = SubResource("SpriteFrames_ctb7n")
 animation = &"idleDarkBlue"
 
-[node name="Eye" type="Sprite2D" parent="." unique_id=132972965]
-position = Vector2(12, -13)
-texture = ExtResource("3_kls7j")
+[node name="Eye" type="AnimatedSprite2D" parent="." unique_id=1918667385]
+position = Vector2(12, -14)
+sprite_frames = SubResource("SpriteFrames_dcbfq")
+animation = &"blink"
 
 [node name="Pupil" type="Sprite2D" parent="Eye" unique_id=158870893]
 texture = ExtResource("2_tils5")
 
+[node name="BlinkTimer" type="Timer" parent="." unique_id=343594098]
+wait_time = 5.0
+one_shot = true
+autostart = true
+
 [connection signal="frame_changed" from="." to="." method="_on_frame_changed"]
+[connection signal="animation_finished" from="Eye" to="." method="_on_eye_animation_finished"]
+[connection signal="timeout" from="BlinkTimer" to="." method="_on_blink_timer_timeout"]

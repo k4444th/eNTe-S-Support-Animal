@@ -1,17 +1,19 @@
 extends AnimatedSprite2D
 
 var moving := false
-var baseEyePos := Vector2(12, -13)
+var baseEyePos := Vector2(12, -14)
 var moveTime := 0.5
 var moveDistance := 100
 
 @onready var eyeNode := $Eye
 @onready var pupilNode := $Eye/Pupil
 @onready var tailNode := $Tail
+@onready var blinkTimer := $BlinkTimer
 
 func _ready() -> void:
 	play("idle" + Globals.duckColor)
 	tailNode.play("idle" + Globals.duckColor)
+	eyeNode.play("open")
 
 func _process(_delta: float) -> void:
 	followMouse()
@@ -47,3 +49,13 @@ func _on_frame_changed() -> void:
 	baseEyePos.y = -14 - frame if frame <= 4 else -18 + (frame - 4)
 	
 	eyeNode.position = baseEyePos
+
+func _on_blink_timer_timeout() -> void:
+	pupilNode.visible = false
+	eyeNode.play("blink")
+
+func _on_eye_animation_finished() -> void:
+	if eyeNode.animation == "blink":
+		eyeNode.play("open")
+		pupilNode.visible = true
+		blinkTimer.start()
