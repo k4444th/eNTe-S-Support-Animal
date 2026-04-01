@@ -105,8 +105,9 @@ func stopDrag():
 	var positionTween = get_tree().create_tween().set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CUBIC)
 	positionTween.tween_property(window, "position", Vector2i(window.position.x, yPos), flyTime)
 	
-	await positionTween.finished
-	spriteNode.parachuteNode.close()
+	if flyTime > parachuteAnimationDuration:
+		await positionTween.finished
+		spriteNode.parachuteNode.close()
 
 func _on_click_timer_timeout() -> void:
 	if clickPending:
