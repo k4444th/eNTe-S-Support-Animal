@@ -14,8 +14,6 @@ var currentTalkCount := talkCount
 @onready var beakNode := $Beak
 @onready var blinkTimer := $BlinkTimer
 
-signal duckFrameChanged(duckFrame: int, tailFrame: int, beakFrame: int, beakAnimation: String)
-
 func _ready() -> void:
 	play("idle" + Globals.duckColor)
 	tailNode.play("idle" + Globals.duckColor)
@@ -24,12 +22,11 @@ func _ready() -> void:
 
 func _process(_delta: float) -> void:
 	followMouse()
-	duckFrameChanged.emit(get_frame(), tailNode.get_frame(), beakNode.get_frame(), beakNode.animation)
 
 func followMouse():
 	var mousePos = get_global_mouse_position()
 	var pupilsPos = mousePos
-	pupilsPos += Vector2(-12, 15)
+	pupilsPos -= Vector2(13, 7)
 	
 	pupilsPos.x = clamp(pupilsPos.x, -1, 1)
 	pupilsPos.y = clamp(pupilsPos.y, -1, 1)

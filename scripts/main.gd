@@ -17,8 +17,6 @@ var totalPolygon := PackedVector2Array()
 @onready var cameraNode := $Camera
 
 func _ready() -> void:
-	spriteNode.duckNode.duckFrameChanged.connect(cookieCutDuckShape)
-	
 	var window = get_window()
 	
 	get_viewport().transparent_bg = true
@@ -34,48 +32,24 @@ func _ready() -> void:
 	var yPos = usableRect.end.y - window.size.y
 	
 	window.position = Vector2i(0, yPos)
-
-func cookieCutDuckShape(duckFrame: int, tailFrame: int, beakFrame: int, beakAnimation: String):
-	#var totalPolygon := PackedVector2Array()
-	totalPolygon = PackedVector2Array()
 	
-	var bodyTexture = spriteNode.duckNode.sprite_frames.get_frame_texture("idleDarkBlue", duckFrame)
-	var bodyImage = bodyTexture.get_image()
-	var bodyBitmap = BitMap.new()
-	bodyBitmap.create_from_image_alpha(bodyImage)
-	var bodyPolygons = bodyBitmap.opaque_to_polygons(Rect2(Vector2.ZERO, bodyImage.get_size()))
+	var clickableArea = PackedVector2Array()
 	
-	var tailTexture = spriteNode.duckNode.tailNode.sprite_frames.get_frame_texture("idleDarkBlue", tailFrame)
-	var tailImage = tailTexture.get_image()
-	var tailBitmap = BitMap.new()
-	tailBitmap.create_from_image_alpha(tailImage)
-	var tailPolygons = tailBitmap.opaque_to_polygons(Rect2(Vector2.ZERO, tailImage.get_size()))
+	for p in spriteNode.clickableAreaNode.polygon:
+		clickableArea.append(p)
 	
-	var beakTexture = spriteNode.duckNode.beakNode.sprite_frames.get_frame_texture(beakAnimation, beakFrame)
-	var beakImage = beakTexture.get_image()
-	var beakBitmap = BitMap.new()
-	beakBitmap.create_from_image_alpha(beakImage)
-	var beakPolygons = beakBitmap.opaque_to_polygons(Rect2(Vector2.ZERO, beakImage.get_size()))
+	DisplayServer.window_set_mouse_passthrough(clickableArea)
 	
-	if bodyPolygons.size() > 0:
-		for p in bodyPolygons[0]:
-			totalPolygon.append(p * Globals.cameraZoom + Vector2(0, 40 * Globals.cameraZoom.y))
-	
-	if tailPolygons.size() > 0:
-		for p in tailPolygons[0]:
-			totalPolygon.append(p * Globals.cameraZoom + Vector2(0, 40 * Globals.cameraZoom.y))
-	
-	if beakPolygons.size() > 0:
-		for p in beakPolygons[0]:
-			totalPolygon.append(p * Globals.cameraZoom + Vector2(0, 40 * Globals.cameraZoom.y))
-	
-	DisplayServer.window_set_mouse_passthrough(totalPolygon)
-
 func _draw():
-	if totalPolygon.size() > 0:
-		draw_colored_polygon(totalPolygon, Color(1, 0, 0))
-			
+	var clickableArea = PackedVector2Array()
+	
+	for p in spriteNode.clickableAreaNode.polygon:
+		clickableArea.append(p)
+	
+	draw_polygon(clickableArea, [Color.RED])
+
 func _process(_delta: float) -> void:
+	# print(get_local_mouse_position())
 	if isDragging and not Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
 		stopDrag()
 		isDragging = false
@@ -111,6 +85,7 @@ func _input(event: InputEvent) -> void:
 
 	elif event is InputEventMouseMotion:
 		var mousePos = event.position
+		# print(mousePos)
 		
 		if clickPending and not isDragging:
 			if mousePos.distance_to(dragStartPosition) > dragThreshold:
