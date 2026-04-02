@@ -14,6 +14,8 @@ var currentTalkCount := talkCount
 @onready var beakNode := $Beak
 @onready var blinkTimer := $BlinkTimer
 
+signal duckFrameChanged()
+
 func _ready() -> void:
 	play("idle" + Globals.duckColor)
 	tailNode.play("idle" + Globals.duckColor)
@@ -42,6 +44,8 @@ func _on_frame_changed() -> void:
 	
 	eyeNode.position = baseEyePos
 	beakNode.position = baseBeakPos
+	
+	duckFrameChanged.emit()
 
 func _on_blink_timer_timeout() -> void:
 	pupilNode.visible = false

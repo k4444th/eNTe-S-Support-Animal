@@ -1,0 +1,20 @@
+[gd_scene format=3 uid="uid://hoaf114t2kva"]
+
+[ext_resource type="Script" path="res://scripts/duck_window.gd" id="1_1hb5k"]
+[ext_resource type="PackedScene" uid="uid://bd4ejfb7x0luj" path="res://scenes/duck.tscn" id="2_rb1qe"]
+
+[node name="DuckWindow" type="Window" unique_id=296749836]
+transparent_bg = true
+oversampling_override = 1.0
+position = Vector2i(0, 36)
+size = Vector2i(150, 140)
+unresizable = true
+borderless = true
+always_on_top = true
+transparent = true
+script = ExtResource("1_1hb5k")
+
+[node name="Duck" parent="." unique_id=498349217 instance=ExtResource("2_rb1qe")]
+
+[node name="Camera" type="Camera2D" parent="." unique_id=1133799264]
+zoom = Vector2(2.5, 2.5)

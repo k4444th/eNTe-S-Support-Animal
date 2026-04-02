@@ -27,22 +27,10 @@ region = Rect2(180, 0, 60, 56)
 atlas = ExtResource("1_ql0qm")
 region = Rect2(240, 0, 60, 56)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_7o3gr"]
-atlas = ExtResource("1_ql0qm")
-region = Rect2(300, 0, 60, 56)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_srci5"]
-atlas = ExtResource("1_ql0qm")
-region = Rect2(360, 0, 60, 56)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_dqtat"]
-atlas = ExtResource("1_ql0qm")
-region = Rect2(420, 0, 60, 56)
-
 [sub_resource type="SpriteFrames" id="SpriteFrames_tils5"]
 animations = [{
 "frames": [{
-"duration": 8.0,
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_8gupq")
 }, {
 "duration": 1.0,
@@ -54,17 +42,17 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_83675")
 }, {
-"duration": 8.0,
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_t4sxs")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_7o3gr")
+"texture": SubResource("AtlasTexture_83675")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_srci5")
+"texture": SubResource("AtlasTexture_4hpwl")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_dqtat")
+"texture": SubResource("AtlasTexture_cso76")
 }],
 "loop": true,
 "name": &"idleDarkBlue",

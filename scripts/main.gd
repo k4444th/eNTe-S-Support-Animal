@@ -10,12 +10,15 @@ var lastMousePosition := Vector2.ZERO
 var dragThreshold := 5.0
 var dragOffset := Vector2i.ZERO
 
+var debug_polygon: PackedVector2Array
 
 @onready var clickTimer := $ClickTimer
 @onready var spriteNode := $Sprite
 @onready var cameraNode := $Camera
 
 func _ready() -> void:
+	spriteNode.duckNode.duckFrameChanged.connect(cookieCutDuckShape)
+	
 	var window = get_window()
 	
 	get_viewport().transparent_bg = true
@@ -31,6 +34,26 @@ func _ready() -> void:
 	var yPos = usableRect.end.y - window.size.y
 	
 	window.position = Vector2i(0, yPos)
+	
+	cookieCutDuckShape()
+
+func cookieCutDuckShape():
+	var texture: Texture2D = spriteNode.duckNode.sprite_frames.get_frame_texture("idleDarkBlue", 0)
+	var image: Image = texture.get_image()
+	
+	var bitmap := BitMap.new()
+	bitmap.create_from_image_alpha(image)
+	
+	var polygons = bitmap.opaque_to_polygons(Rect2(Vector2.ZERO, image.get_size()))
+	
+	if polygons.size() > 0:
+		var transformedPolygon := PackedVector2Array()
+		
+		for p in polygons[0]:
+			var scaled = p * Globals.cameraZoom + Vector2(0, 40 * Globals.cameraZoom.y)
+			transformedPolygon.append(Vector2i(scaled))
+		
+		DisplayServer.window_set_mouse_passthrough(transformedPolygon)
 
 func _process(_delta: float) -> void:
 	if isDragging and not Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
