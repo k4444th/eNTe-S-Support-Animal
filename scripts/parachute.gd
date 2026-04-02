@@ -1,5 +1,7 @@
 extends AnimatedSprite2D
 
+signal parachuteClosed()
+
 func _ready() -> void:
 	visible = false
 
@@ -12,6 +14,7 @@ func _on_animation_finished() -> void:
 		play("open")
 	elif animation == "closing":
 		visible = false
+		parachuteClosed.emit()
 
 func close():
 	play("closing")

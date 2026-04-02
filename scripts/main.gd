@@ -17,6 +17,8 @@ var totalPolygon := PackedVector2Array()
 @onready var cameraNode := $Camera
 
 func _ready() -> void:
+	spriteNode.parachuteNode.parachuteClosed.connect(resetMousePassthroughArea)
+	
 	var window = get_window()
 	
 	get_viewport().transparent_bg = true
@@ -33,13 +35,19 @@ func _ready() -> void:
 	
 	window.position = Vector2i(0, yPos)
 	
+	setMousePassthroughArea(spriteNode.visibleAreaNode)
+
+func setMousePassthroughArea(area: Polygon2D):
 	var clickableArea = PackedVector2Array()
 	
-	for p in spriteNode.clickableAreaNode.polygon:
+	for p in area.polygon:
 		clickableArea.append(get_viewport().get_canvas_transform() * spriteNode.clickableAreaNode.to_global(p))
 	
 	DisplayServer.window_set_mouse_passthrough(clickableArea)
 
+func resetMousePassthroughArea():
+	setMousePassthroughArea(spriteNode.clickableAreaNode)
+	
 func _process(_delta: float) -> void:
 	if isDragging and not Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
 		stopDrag()
@@ -76,7 +84,6 @@ func _input(event: InputEvent) -> void:
 
 	elif event is InputEventMouseMotion:
 		var mousePos = event.position
-		# print(mousePos)
 		
 		if clickPending and not isDragging:
 			if mousePos.distance_to(dragStartPosition) > dragThreshold:
@@ -111,12 +118,7 @@ func stopDrag():
 	if flyTime > parachuteAnimationDuration and window.position.y < yPos:
 		spriteNode.parachuteNode.open()
 		
-		var clickableArea = PackedVector2Array()
-	
-		for p in spriteNode.clickableAreaNode.polygon:
-			clickableArea.append(get_viewport().get_canvas_transform() * spriteNode.visibleAreaNode.to_global(p))
-		
-		DisplayServer.window_set_mouse_passthrough(clickableArea)
+		setMousePassthroughArea(spriteNode.visibleAreaNode)
 	
 	var positionTween = get_tree().create_tween().set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CUBIC)
 	positionTween.tween_property(window, "position", Vector2i(window.position.x, yPos), flyTime)
@@ -124,13 +126,6 @@ func stopDrag():
 	if flyTime > parachuteAnimationDuration and window.position.y < yPos:
 		await positionTween.finished
 		spriteNode.parachuteNode.close()
-		
-		var clickableArea = PackedVector2Array()
-	
-		for p in spriteNode.clickableAreaNode.polygon:
-			clickableArea.append(get_viewport().get_canvas_transform() * spriteNode.clickableAreaNode.to_global(p))
-		
-		DisplayServer.window_set_mouse_passthrough(clickableArea)
 
 func _on_click_timer_timeout() -> void:
 	if clickPending:
