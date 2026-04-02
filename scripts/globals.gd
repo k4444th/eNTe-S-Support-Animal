@@ -39,7 +39,7 @@ var parachuteBackgrounds = [
 ]
 
 var colorIndex = 7
-var parachuteColorIndex = 0
+var parachuteColorIndex = 1
 var parachuteBackgroundIndex = 0
 
 var duckColor = duckColors[colorIndex]
