@@ -35,23 +35,12 @@ func _ready() -> void:
 	
 	var clickableArea = PackedVector2Array()
 	
-	var canvas_transform = get_viewport().get_canvas_transform()
-
 	for p in spriteNode.clickableAreaNode.polygon:
-		clickableArea.append(canvas_transform * spriteNode.clickableAreaNode.to_global(p))
+		clickableArea.append(get_viewport().get_canvas_transform() * spriteNode.clickableAreaNode.to_global(p))
 	
 	DisplayServer.window_set_mouse_passthrough(clickableArea)
-	
-func _draw():
-	var clickableArea = PackedVector2Array()
-	
-	for p in spriteNode.clickableAreaNode.polygon:
-		clickableArea.append(spriteNode.global_position + p)
-	
-	draw_polygon(clickableArea, [Color.RED])
 
 func _process(_delta: float) -> void:
-	# print(get_local_mouse_position())
 	if isDragging and not Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
 		stopDrag()
 		isDragging = false
@@ -121,6 +110,13 @@ func stopDrag():
 	
 	if flyTime > parachuteAnimationDuration and window.position.y < yPos:
 		spriteNode.parachuteNode.open()
+		
+		var clickableArea = PackedVector2Array()
+	
+		for p in spriteNode.clickableAreaNode.polygon:
+			clickableArea.append(get_viewport().get_canvas_transform() * spriteNode.visibleAreaNode.to_global(p))
+		
+		DisplayServer.window_set_mouse_passthrough(clickableArea)
 	
 	var positionTween = get_tree().create_tween().set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CUBIC)
 	positionTween.tween_property(window, "position", Vector2i(window.position.x, yPos), flyTime)
@@ -128,6 +124,13 @@ func stopDrag():
 	if flyTime > parachuteAnimationDuration and window.position.y < yPos:
 		await positionTween.finished
 		spriteNode.parachuteNode.close()
+		
+		var clickableArea = PackedVector2Array()
+	
+		for p in spriteNode.clickableAreaNode.polygon:
+			clickableArea.append(get_viewport().get_canvas_transform() * spriteNode.clickableAreaNode.to_global(p))
+		
+		DisplayServer.window_set_mouse_passthrough(clickableArea)
 
 func _on_click_timer_timeout() -> void:
 	if clickPending:
