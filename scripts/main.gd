@@ -35,8 +35,10 @@ func _ready() -> void:
 	
 	var clickableArea = PackedVector2Array()
 	
+	var canvas_transform = get_viewport().get_canvas_transform()
+
 	for p in spriteNode.clickableAreaNode.polygon:
-		clickableArea.append(p)
+		clickableArea.append(canvas_transform * spriteNode.clickableAreaNode.to_global(p))
 	
 	DisplayServer.window_set_mouse_passthrough(clickableArea)
 	
@@ -44,7 +46,7 @@ func _draw():
 	var clickableArea = PackedVector2Array()
 	
 	for p in spriteNode.clickableAreaNode.polygon:
-		clickableArea.append(p)
+		clickableArea.append(spriteNode.global_position + p)
 	
 	draw_polygon(clickableArea, [Color.RED])
 
