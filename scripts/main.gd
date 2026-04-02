@@ -68,7 +68,7 @@ func _input(event: InputEvent) -> void:
 				hasFirstClick = false
 				clickPending = false
 				
-				print("Du hast Probleme?\nWir haben die Lösung!\nIT-Support Hotline: 0664 / 123456789\n")
+				print("Du hast Probleme?\nWir haben Lösungen!\nIT-Support Hotline: +43 316 405 455 222\n")
 			
 			else:
 				hasFirstClick = true

@@ -18,7 +18,7 @@ func _ready() -> void:
 	play("idle" + Globals.duckColor)
 	tailNode.play("idle" + Globals.duckColor)
 	eyeNode.play("open")
-	beakNode.play("close")
+	beakNode.play("close" + Globals.beakColor)
 
 func _process(_delta: float) -> void:
 	followMouse()
@@ -34,7 +34,7 @@ func followMouse():
 	pupilNode.position = pupilsPos
 
 func talk():
-	beakNode.play("talk")
+	beakNode.play("talk" + Globals.beakColor)
 
 func _on_frame_changed() -> void:
 	baseEyePos.y = -14 - frame if frame <= 4 else -22 + frame
@@ -54,12 +54,12 @@ func _on_eye_animation_finished() -> void:
 		blinkTimer.start()
 
 func _on_beak_animation_finished() -> void:
-	if beakNode.animation == "talk":
-		beakNode.play("close")
+	if beakNode.animation == "talk" + Globals.beakColor:
+		beakNode.play("close" + Globals.beakColor)
 		if currentTalkCount > 0:
-			var tempTimer = get_tree().create_timer(1 / beakNode.sprite_frames.get_animation_speed("talk"))
+			var tempTimer = get_tree().create_timer(1 / beakNode.sprite_frames.get_animation_speed("talk" + Globals.beakColor))
 			await  tempTimer.timeout
-			beakNode.play("talk")
+			beakNode.play("talk" + Globals.beakColor)
 			currentTalkCount -= 1
 		else:
 			currentTalkCount = talkCount

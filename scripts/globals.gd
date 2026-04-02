@@ -1,6 +1,6 @@
 extends Node
 
-var colors = [
+var duckColors = [
 	"Cyan",
 	"DarkBlue",
 	"LightBlue",
@@ -11,9 +11,21 @@ var colors = [
 	"Yellow"
 ]
 
-var colorIndex = 1
+var beakColors = [
+	"Orange",
+	"Orange",
+	"Orange",
+	"Orange",
+	"Yellow",
+	"Orange",
+	"Orange",
+	"Orange"
+]
 
-var duckColor = colors[colorIndex]
+var colorIndex = 7
+
+var duckColor = duckColors[colorIndex]
+var beakColor = beakColors[colorIndex]
 
 var cameraZoom = Vector2(2.5, 2.5)
 

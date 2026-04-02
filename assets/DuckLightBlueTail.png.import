@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d4ih2d3iossgo"
-path="res://.godot/imported/Beak.png-064a32e9a47ee2b60111d75c1c001ae5.ctex"
+uid="uid://c4oa3sxvjenlq"
+path="res://.godot/imported/DuckLightBlueTail.png-55221311ffc88a62df64aaa8e57ca7c2.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/Beak.png"
-dest_files=["res://.godot/imported/Beak.png-064a32e9a47ee2b60111d75c1c001ae5.ctex"]
+source_file="res://assets/DuckLightBlueTail.png"
+dest_files=["res://.godot/imported/DuckLightBlueTail.png-55221311ffc88a62df64aaa8e57ca7c2.ctex"]
 
 [params]
 
