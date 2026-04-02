@@ -28,5 +28,3 @@ var duckColor = duckColors[colorIndex]
 var beakColor = beakColors[colorIndex]
 
 var cameraZoom = Vector2(2.5, 2.5)
-
-var duckSize = Vector2(15, 14)
