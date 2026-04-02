@@ -10,7 +10,7 @@ var lastMousePosition := Vector2.ZERO
 var dragThreshold := 5.0
 var dragOffset := Vector2i.ZERO
 
-var debug_polygon: PackedVector2Array
+var totalPolygon := PackedVector2Array()
 
 @onready var clickTimer := $ClickTimer
 @onready var spriteNode := $Sprite
@@ -34,27 +34,47 @@ func _ready() -> void:
 	var yPos = usableRect.end.y - window.size.y
 	
 	window.position = Vector2i(0, yPos)
-	
-	cookieCutDuckShape()
 
-func cookieCutDuckShape():
-	var texture: Texture2D = spriteNode.duckNode.sprite_frames.get_frame_texture("idleDarkBlue", 0)
-	var image: Image = texture.get_image()
+func cookieCutDuckShape(duckFrame: int, tailFrame: int, beakFrame: int, beakAnimation: String):
+	#var totalPolygon := PackedVector2Array()
+	totalPolygon = PackedVector2Array()
 	
-	var bitmap := BitMap.new()
-	bitmap.create_from_image_alpha(image)
+	var bodyTexture = spriteNode.duckNode.sprite_frames.get_frame_texture("idleDarkBlue", duckFrame)
+	var bodyImage = bodyTexture.get_image()
+	var bodyBitmap = BitMap.new()
+	bodyBitmap.create_from_image_alpha(bodyImage)
+	var bodyPolygons = bodyBitmap.opaque_to_polygons(Rect2(Vector2.ZERO, bodyImage.get_size()))
 	
-	var polygons = bitmap.opaque_to_polygons(Rect2(Vector2.ZERO, image.get_size()))
+	var tailTexture = spriteNode.duckNode.tailNode.sprite_frames.get_frame_texture("idleDarkBlue", duckFrame)
+	var tailImage = tailTexture.get_image()
+	var tailBitmap = BitMap.new()
+	tailBitmap.create_from_image_alpha(tailImage)
+	var tailPolygons = tailBitmap.opaque_to_polygons(Rect2(Vector2.ZERO, tailImage.get_size()))
 	
-	if polygons.size() > 0:
-		var transformedPolygon := PackedVector2Array()
-		
-		for p in polygons[0]:
-			var scaled = p * Globals.cameraZoom + Vector2(0, 40 * Globals.cameraZoom.y)
-			transformedPolygon.append(Vector2i(scaled))
-		
-		DisplayServer.window_set_mouse_passthrough(transformedPolygon)
+	var beakTexture = spriteNode.duckNode.beakNode.sprite_frames.get_frame_texture(beakAnimation, beakFrame)
+	var beakImage = beakTexture.get_image()
+	var beakBitmap = BitMap.new()
+	beakBitmap.create_from_image_alpha(beakImage)
+	var beakPolygons = beakBitmap.opaque_to_polygons(Rect2(Vector2.ZERO, beakImage.get_size()))
+	
+	if bodyPolygons.size() > 0:
+		for p in bodyPolygons[0]:
+			totalPolygon.append(p * Globals.cameraZoom + Vector2(0, 40 * Globals.cameraZoom.y))
+	
+	if tailPolygons.size() > 0:
+		for p in tailPolygons[0]:
+			totalPolygon.append(p * Globals.cameraZoom + Vector2(0, 40 * Globals.cameraZoom.y))
+	
+	if beakPolygons.size() > 0:
+		for p in beakPolygons[0]:
+			totalPolygon.append(p * Globals.cameraZoom + Vector2(0, 40 * Globals.cameraZoom.y))
+	
+	DisplayServer.window_set_mouse_passthrough(totalPolygon)
 
+func _draw():
+	if totalPolygon.size() > 0:
+		draw_colored_polygon(totalPolygon, Color(1, 0, 0))
+			
 func _process(_delta: float) -> void:
 	if isDragging and not Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
 		stopDrag()
