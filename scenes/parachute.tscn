@@ -1,58 +1,49 @@
 [gd_scene format=3 uid="uid://cmyfbvcurakl4"]
 
-[ext_resource type="Texture2D" uid="uid://0yhslims1n5f" path="res://assets/Parachute.png" id="1_vi22e"]
+[ext_resource type="Texture2D" uid="uid://hdtpsir7duhb" path="res://assets/ParachuteHandle.png" id="1_vi22e"]
 [ext_resource type="Script" uid="uid://dw7urovgkfvxo" path="res://scripts/parachute.gd" id="2_fshcv"]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_vi22e"]
-atlas = ExtResource("1_vi22e")
-region = Rect2(168, 0, 56, 72)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_fshcv"]
-atlas = ExtResource("1_vi22e")
-region = Rect2(112, 0, 56, 72)
+[ext_resource type="Texture2D" uid="uid://c8t1lnomddd3e" path="res://assets/ParachuteBackground.png" id="3_fshcv"]
+[ext_resource type="Texture2D" uid="uid://cv0ktkywlo5ka" path="res://assets/ParachuteColor.png" id="4_sbufd"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_sbufd"]
 atlas = ExtResource("1_vi22e")
-region = Rect2(56, 0, 56, 72)
+region = Rect2(112, 0, 56, 72)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_cuyg8"]
 atlas = ExtResource("1_vi22e")
-region = Rect2(0, 0, 56, 72)
+region = Rect2(56, 0, 56, 72)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_wmsi4"]
 atlas = ExtResource("1_vi22e")
-region = Rect2(224, 0, 56, 72)
+region = Rect2(0, 0, 56, 72)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_xxull"]
 atlas = ExtResource("1_vi22e")
-region = Rect2(0, 0, 56, 72)
+region = Rect2(168, 0, 56, 72)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_oqljc"]
 atlas = ExtResource("1_vi22e")
-region = Rect2(56, 0, 56, 72)
+region = Rect2(0, 0, 56, 72)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_lqydw"]
 atlas = ExtResource("1_vi22e")
-region = Rect2(112, 0, 56, 72)
+region = Rect2(56, 0, 56, 72)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_alq5m"]
 atlas = ExtResource("1_vi22e")
-region = Rect2(168, 0, 56, 72)
+region = Rect2(112, 0, 56, 72)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_spa78"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_vi22e")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_fshcv")
-}, {
-"duration": 1.0,
 "texture": SubResource("AtlasTexture_sbufd")
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_cuyg8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wmsi4")
 }],
 "loop": false,
 "name": &"closing",
@@ -60,16 +51,13 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_wmsi4")
+"texture": SubResource("AtlasTexture_xxull")
 }],
 "loop": false,
 "name": &"open",
 "speed": 20.0
 }, {
 "frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_xxull")
-}, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_oqljc")
 }, {
@@ -84,9 +72,143 @@ animations = [{
 "speed": 20.0
 }]
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_emew2"]
+atlas = ExtResource("3_fshcv")
+region = Rect2(56, 0, 56, 72)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2cf68"]
+atlas = ExtResource("3_fshcv")
+region = Rect2(0, 0, 56, 72)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_vi22e"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_emew2")
+}],
+"loop": false,
+"name": &"Dark",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2cf68")
+}],
+"loop": false,
+"name": &"Light",
+"speed": 5.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c1i8k"]
+atlas = ExtResource("4_sbufd")
+region = Rect2(168, 0, 56, 72)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e1at0"]
+atlas = ExtResource("4_sbufd")
+region = Rect2(0, 0, 56, 72)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_alvf7"]
+atlas = ExtResource("4_sbufd")
+region = Rect2(56, 0, 56, 72)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4p57e"]
+atlas = ExtResource("4_sbufd")
+region = Rect2(280, 0, 56, 72)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vflka"]
+atlas = ExtResource("4_sbufd")
+region = Rect2(112, 0, 56, 72)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cv81j"]
+atlas = ExtResource("4_sbufd")
+region = Rect2(224, 0, 56, 72)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tkqe3"]
+atlas = ExtResource("4_sbufd")
+region = Rect2(392, 0, 56, 72)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yuchx"]
+atlas = ExtResource("4_sbufd")
+region = Rect2(336, 0, 56, 72)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_e1at0"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c1i8k")
+}],
+"loop": false,
+"name": &"Cyan",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e1at0")
+}],
+"loop": false,
+"name": &"DarkBlue",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_alvf7")
+}],
+"loop": false,
+"name": &"LightBlue",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4p57e")
+}],
+"loop": false,
+"name": &"LightGreen",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vflka")
+}],
+"loop": false,
+"name": &"Orange",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cv81j")
+}],
+"loop": false,
+"name": &"Pink",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tkqe3")
+}],
+"loop": false,
+"name": &"Purple",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yuchx")
+}],
+"loop": false,
+"name": &"Yellow",
+"speed": 5.0
+}]
+
 [node name="Parachute" type="AnimatedSprite2D" unique_id=1070859178]
 sprite_frames = SubResource("SpriteFrames_spa78")
-animation = &"open"
+animation = &"opening"
 script = ExtResource("2_fshcv")
+
+[node name="Backgroud" type="AnimatedSprite2D" parent="." unique_id=1201439654]
+sprite_frames = SubResource("SpriteFrames_vi22e")
+animation = &"Light"
+
+[node name="Color" type="AnimatedSprite2D" parent="." unique_id=1097955610]
+sprite_frames = SubResource("SpriteFrames_e1at0")
+animation = &"DarkBlue"
 
 [connection signal="animation_finished" from="." to="." method="_on_animation_finished"]
