@@ -45,7 +45,7 @@ func cookieCutDuckShape(duckFrame: int, tailFrame: int, beakFrame: int, beakAnim
 	bodyBitmap.create_from_image_alpha(bodyImage)
 	var bodyPolygons = bodyBitmap.opaque_to_polygons(Rect2(Vector2.ZERO, bodyImage.get_size()))
 	
-	var tailTexture = spriteNode.duckNode.tailNode.sprite_frames.get_frame_texture("idleDarkBlue", duckFrame)
+	var tailTexture = spriteNode.duckNode.tailNode.sprite_frames.get_frame_texture("idleDarkBlue", tailFrame)
 	var tailImage = tailTexture.get_image()
 	var tailBitmap = BitMap.new()
 	tailBitmap.create_from_image_alpha(tailImage)

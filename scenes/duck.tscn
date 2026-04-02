@@ -30,7 +30,7 @@ region = Rect2(240, 0, 60, 56)
 [sub_resource type="SpriteFrames" id="SpriteFrames_tils5"]
 animations = [{
 "frames": [{
-"duration": 1.0,
+"duration": 8.0,
 "texture": SubResource("AtlasTexture_8gupq")
 }, {
 "duration": 1.0,
@@ -42,7 +42,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_83675")
 }, {
-"duration": 1.0,
+"duration": 8.0,
 "texture": SubResource("AtlasTexture_t4sxs")
 }, {
 "duration": 1.0,
