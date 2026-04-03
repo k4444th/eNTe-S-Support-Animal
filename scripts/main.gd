@@ -97,18 +97,28 @@ func parachuteClosed():
 
 func drag():
 	spriteNode.position = get_local_mouse_position()
+	
+	var usableRect := DisplayServer.screen_get_usable_rect()
+	
+	var wholeScreenArea := Polygon2D.new()
+	wholeScreenArea.polygons = PackedVector2Array([
+		usableRect.position,
+		Vector2(usableRect.position.x, usableRect.size.y),
+		usableRect.size,
+		Vector2(usableRect.size.x, usableRect.position.y)
+	])
+	
+	setMousePassthroughArea(wholeScreenArea)
 
 func stopDrag():
 	var window = get_window()
 	var yPos = floor(window.size.y / (Globals.cameraZoom.y * 2) - spriteNode.duckNode.sprite_frames.get_frame_texture("idleDarkBlue", 4).get_height() / 2)
 	
-	var flyTime = pow(abs(spriteNode.position.y - yPos), 0.7) * 0.01
+	var flyTime = pow(abs(spriteNode.position.y - yPos), 0.7) * 0.0175
 	var parachuteAnimationDuration = (1 / spriteNode.parachuteNode.sprite_frames.get_animation_speed("opening")) * spriteNode.parachuteNode.sprite_frames.get_frame_count("opening")
 	
 	if flyTime > parachuteAnimationDuration and window.position.y < yPos:
 		spriteNode.parachuteNode.open()
-		
-		setMousePassthroughArea(spriteNode.visibleParachuteAreaNode)
 	
 	var positionTween = get_tree().create_tween().set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CUBIC)
 	positionTween.tween_property(spriteNode, "position:y", yPos, flyTime)
