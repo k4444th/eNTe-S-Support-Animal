@@ -21,6 +21,7 @@
 [ext_resource type="Texture2D" uid="uid://5n3hll32mr05" path="res://assets/DuckPinkTail.png" id="12_7o3gr"]
 [ext_resource type="Texture2D" uid="uid://c2vouxme2mm82" path="res://assets/DuckPurpleTail.png" id="15_jeaup"]
 [ext_resource type="Texture2D" uid="uid://mh6h8knplglf" path="res://assets/DuckYellowTail.png" id="17_hxxp2"]
+[ext_resource type="PackedScene" uid="uid://carscvxhgdybu" path="res://scenes/speech_bubble.tscn" id="22_h31it"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_nc5rf"]
 atlas = ExtResource("1_cso76")
@@ -981,12 +982,23 @@ animation = &"open"
 [node name="Pupil" type="Sprite2D" parent="Eye" unique_id=158870893]
 texture = ExtResource("2_tils5")
 
+[node name="SpeechBubble" parent="." unique_id=2081239503 instance=ExtResource("22_h31it")]
+offset_left = 32.0
+offset_top = -57.0
+offset_right = 112.0
+offset_bottom = -7.0
+
 [node name="BlinkTimer" type="Timer" parent="." unique_id=343594098]
 wait_time = 5.0
 one_shot = true
 autostart = true
 
+[node name="SpeechBubbleTimer" type="Timer" parent="." unique_id=1484213180]
+wait_time = 10.0
+one_shot = true
+
 [connection signal="frame_changed" from="." to="." method="_on_frame_changed"]
 [connection signal="animation_finished" from="Beak" to="." method="_on_beak_animation_finished"]
 [connection signal="animation_finished" from="Eye" to="." method="_on_eye_animation_finished"]
 [connection signal="timeout" from="BlinkTimer" to="." method="_on_blink_timer_timeout"]
+[connection signal="timeout" from="SpeechBubbleTimer" to="." method="_on_speech_bubble_timer_timeout"]

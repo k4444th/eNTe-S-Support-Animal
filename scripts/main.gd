@@ -18,6 +18,7 @@ var totalPolygon := PackedVector2Array()
 
 func _ready() -> void:
 	spriteNode.parachuteNode.parachuteClosed.connect(parachuteClosed)
+	spriteNode.duckNode.talkEnd.connect(talkEnd)
 	
 	var window = get_window()
 	
@@ -27,7 +28,7 @@ func _ready() -> void:
 	window.always_on_top = true
 	window.unresizable = true
 	
-	window.size = Vector2(spriteNode.duckNode.sprite_frames.get_frame_texture("idleDarkBlue", 4).get_width() * Globals.cameraZoom.x, spriteNode.parachuteNode.sprite_frames.get_frame_texture("open", 0).get_height() * Globals.cameraZoom.y + (32 * Globals.cameraZoom.y))
+	window.size = Vector2((spriteNode.duckNode.sprite_frames.get_frame_texture("idleDarkBlue", 4).get_width() + 2 + spriteNode.duckNode.speechBubbleNode.size.x) * Globals.cameraZoom.x, spriteNode.parachuteNode.sprite_frames.get_frame_texture("open", 0).get_height() * Globals.cameraZoom.y + (32 * Globals.cameraZoom.y))
 	cameraNode.zoom = Globals.cameraZoom
 	
 	var usableRect := DisplayServer.screen_get_usable_rect()
@@ -35,7 +36,7 @@ func _ready() -> void:
 	
 	window.position = Vector2i(0, yPos)
 	
-	setMousePassthroughArea(spriteNode.visibleAreaNode)
+	setMousePassthroughArea(spriteNode.clickableAreaNode)
 	
 func _process(_delta: float) -> void:
 	if isDragging and not Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
@@ -118,7 +119,7 @@ func stopDrag():
 	if flyTime > parachuteAnimationDuration and window.position.y < yPos:
 		spriteNode.parachuteNode.open()
 		
-		setMousePassthroughArea(spriteNode.visibleAreaNode)
+		setMousePassthroughArea(spriteNode.visibleParachuteAreaNode)
 	
 	var positionTween = get_tree().create_tween().set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CUBIC)
 	positionTween.tween_property(window, "position", Vector2i(window.position.x, yPos), flyTime)
@@ -127,9 +128,13 @@ func stopDrag():
 		await positionTween.finished
 		spriteNode.parachuteNode.close()
 
+func talkEnd():
+	setMousePassthroughArea(spriteNode.clickableAreaNode)
+
 func _on_click_timer_timeout() -> void:
 	if clickPending:
 		hasFirstClick = false
 		clickPending = false
 	
 	spriteNode.duckNode.talk()
+	setMousePassthroughArea(spriteNode.visibleSpeechBubbleAreaNode)

@@ -3,22 +3,29 @@ extends AnimatedSprite2D
 var moving := false
 var baseEyePos := Vector2(12, -14)
 var baseBeakPos := Vector2(0, 0)
+var baseSpeechBubblePos := Vector2(32, -57)
 var moveTime := 0.5
 var moveDistance := 100
 var talkCount := 3
+var talking := false
 var currentTalkCount := talkCount
 
 @onready var eyeNode := $Eye
 @onready var pupilNode := $Eye/Pupil
 @onready var tailNode := $Tail
 @onready var beakNode := $Beak
+@onready var speechBubbleNode := $SpeechBubble
 @onready var blinkTimer := $BlinkTimer
+@onready var speechBubbleTimer := $SpeechBubbleTimer
+
+signal talkEnd()
 
 func _ready() -> void:
 	play("idle" + Globals.duckColor)
 	tailNode.play("idle" + Globals.duckColor)
 	eyeNode.play("open")
 	beakNode.play("close" + Globals.beakColor)
+	speechBubbleNode.visible = false
 
 func _process(_delta: float) -> void:
 	followMouse()
@@ -34,14 +41,24 @@ func followMouse():
 	pupilNode.position = pupilsPos
 
 func talk():
-	beakNode.play("talk" + Globals.beakColor)
+	if talking:
+		speechBubbleNode.visible = false
+		beakNode.play("close" + Globals.beakColor)
+		talking = false
+	else:
+		beakNode.play("talk" + Globals.beakColor)
+		speechBubbleTimer.start()
+		speechBubbleNode.visible = true
+		talking = true
 
 func _on_frame_changed() -> void:
 	baseEyePos.y = -14 - frame if frame <= 4 else -22 + frame
-	baseBeakPos.y = -frame if frame <= 4 else -8 +frame
+	baseBeakPos.y = -frame if frame <= 4 else -8 + frame
+	baseSpeechBubblePos.y = -57 - frame if frame <= 4 else -65 + frame
 	
 	eyeNode.position = baseEyePos
 	beakNode.position = baseBeakPos
+	speechBubbleNode.position = baseSpeechBubblePos
 
 func _on_blink_timer_timeout() -> void:
 	pupilNode.visible = false
@@ -63,3 +80,8 @@ func _on_beak_animation_finished() -> void:
 			currentTalkCount -= 1
 		else:
 			currentTalkCount = talkCount
+			talkEnd.emit()
+
+func _on_speech_bubble_timer_timeout() -> void:
+	speechBubbleNode.visible = false
+	talking = false
