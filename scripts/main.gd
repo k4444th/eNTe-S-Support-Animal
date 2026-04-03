@@ -121,19 +121,20 @@ func drag():
 func stopDrag():
 	var window = get_window()
 	var yPos = floor(window.size.y / (Globals.cameraZoom.y * 2) - spriteNode.duckNode.sprite_frames.get_frame_texture("idleDarkBlue", 4).get_height() / 2)
+	var usableRect := DisplayServer.screen_get_usable_rect()
 	
 	var flyTime = pow(abs(spriteNode.position.y - yPos), 0.7) * 0.0175
 	var parachuteAnimationDuration = (1 / spriteNode.parachuteNode.sprite_frames.get_animation_speed("opening")) * spriteNode.parachuteNode.sprite_frames.get_frame_count("opening")
 	
 	isFlying = true
 	
-	if flyTime > parachuteAnimationDuration and window.position.y < yPos:
+	if flyTime > parachuteAnimationDuration and spriteNode.position.y < usableRect.size.y / Globals.cameraZoom.y / 2:
 		spriteNode.parachuteNode.open()
 	
 	var positionTween = get_tree().create_tween().set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CUBIC)
 	positionTween.tween_property(spriteNode, "position:y", yPos, flyTime)
 	
-	if flyTime > parachuteAnimationDuration and window.position.y < yPos:
+	if flyTime > parachuteAnimationDuration and spriteNode.position.y < usableRect.size.y / Globals.cameraZoom.y / 2:
 		await positionTween.finished
 		spriteNode.parachuteNode.close()
 	

@@ -57,7 +57,7 @@ func talk():
 func _on_frame_changed() -> void:
 	baseEyePos.y = -14 - frame if frame <= 4 else -22 + frame
 	baseBeakPos.y = -frame if frame <= 4 else -8 + frame
-	baseSpeechBubblePos.y = initialSpeechBubblePosY - frame if frame <= 4 else initialSpeechBubblePosY + frame
+	baseSpeechBubblePos.y = initialSpeechBubblePosY - frame if frame <= 4 else -8 + initialSpeechBubblePosY + frame
 	
 	eyeNode.position = baseEyePos
 	beakNode.position = baseBeakPos
