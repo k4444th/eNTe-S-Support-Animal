@@ -2,11 +2,15 @@
 
 [ext_resource type="Script" uid="uid://dbo5idgmudy6v" path="res://scripts/main.gd" id="1_0wfyh"]
 [ext_resource type="PackedScene" uid="uid://cxxlcu73gh5ef" path="res://scenes/sprite.tscn" id="2_0wfyh"]
+[ext_resource type="PackedScene" uid="uid://24i8yx2b6hho" path="res://scenes/settings.tscn" id="3_sugp2"]
 
 [node name="Main" type="Node2D" unique_id=930802233]
 script = ExtResource("1_0wfyh")
 
 [node name="Sprite" parent="." unique_id=1921146517 instance=ExtResource("2_0wfyh")]
+
+[node name="Settings" parent="." unique_id=1746651466 instance=ExtResource("3_sugp2")]
+visible = false
 
 [node name="Camera" type="Camera2D" parent="." unique_id=335239124]
 zoom = Vector2(2.5, 2.5)
@@ -15,4 +19,9 @@ zoom = Vector2(2.5, 2.5)
 wait_time = 0.2
 one_shot = true
 
+[node name="SettingsDelayTimer" type="Timer" parent="." unique_id=1396342523]
+wait_time = 0.05
+one_shot = true
+
 [connection signal="timeout" from="ClickTimer" to="." method="_on_click_timer_timeout"]
+[connection signal="timeout" from="SettingsDelayTimer" to="." method="_on_settings_delay_timer_timeout"]

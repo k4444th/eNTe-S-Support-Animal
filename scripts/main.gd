@@ -11,16 +11,20 @@ var dragStartPosition := Vector2.ZERO
 var lastMousePosition := Vector2.ZERO
 var dragThreshold := 5.0
 var dragOffset := Vector2i.ZERO
-
+var settingsJustClosed := false
 var totalPolygon := PackedVector2Array()
 
 @onready var clickTimer := $ClickTimer
 @onready var spriteNode := $Sprite
+@onready var settingsNode := $Settings
 @onready var cameraNode := $Camera
+@onready var settingsDelayTimer := $SettingsDelayTimer
+
 
 func _ready() -> void:
 	spriteNode.parachuteNode.parachuteClosed.connect(parachuteClosed)
 	spriteNode.duckNode.talkEnd.connect(talkEnd)
+	settingsNode.closeSettings.connect(closeSettings)
 	
 	var window = get_window()
 	
@@ -46,8 +50,10 @@ func _process(_delta: float) -> void:
 		isDragging = false
 
 func _input(event: InputEvent) -> void:
-	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and not settingsJustClosed:
 		if event.pressed:
+			settingsNode.hideSettings()
+			
 			clickPosition = event.position
 			dragStartPosition = event.position
 			lastMousePosition = event.position
@@ -86,6 +92,28 @@ func _input(event: InputEvent) -> void:
 		if isDragging:
 			lastMousePosition = mousePos
 			drag()
+	
+	elif event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_RIGHT:
+		if event.pressed:
+			settingsNode.showSettings(event.position)
+			
+			if spriteNode.duckNode.talking:
+				spriteNode.duckNode.speechBubbleNode.visible = false
+				spriteNode.duckNode.beakNode.play("close" + Globals.beakColor)
+				spriteNode.duckNode.talking = false
+				talkEnd()
+			
+			var usableRect := DisplayServer.screen_get_usable_rect()
+	
+			var wholeScreenArea := Polygon2D.new()
+			wholeScreenArea.polygons = PackedVector2Array([
+				usableRect.position,
+				Vector2(usableRect.position.x, usableRect.size.y),
+				usableRect.size,
+				Vector2(usableRect.size.x, usableRect.position.y)
+			])
+			
+			setMousePassthroughArea(wholeScreenArea)
 
 func setMousePassthroughArea(area: Polygon2D):
 	var clickableArea = PackedVector2Array()
@@ -100,6 +128,11 @@ func parachuteClosed():
 	setMousePassthroughArea(spriteNode.clickableAreaNode)
 	isFlying = false
 
+func closeSettings():
+	settingsJustClosed = true
+	settingsDelayTimer.start()
+	setMousePassthroughArea(spriteNode.clickableAreaNode)
+
 func startDrag():
 	if isFlying:
 		return
@@ -111,7 +144,7 @@ func startDrag():
 	spriteNode.duckNode.talkEnd.emit()
 
 func drag():
-	if isFlying or !hasStartedDrag:
+	if isFlying or not hasStartedDrag:
 		return
 	
 	spriteNode.position = get_local_mouse_position()
@@ -166,6 +199,9 @@ func _on_click_timer_timeout() -> void:
 		hasFirstClick = false
 		clickPending = false
 	
-	if !isFlying:
+	if not isFlying:
 		spriteNode.duckNode.talk(false)
 		setMousePassthroughArea(spriteNode.visibleSpeechBubbleAreaNode)
+
+func _on_settings_delay_timer_timeout() -> void:
+	settingsJustClosed = false

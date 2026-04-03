@@ -200,7 +200,7 @@ animations = [{
 
 [node name="Parachute" type="AnimatedSprite2D" unique_id=1070859178]
 sprite_frames = SubResource("SpriteFrames_spa78")
-animation = &"opening"
+animation = &"open"
 script = ExtResource("2_fshcv")
 
 [node name="Backgroud" type="AnimatedSprite2D" parent="." unique_id=1201439654]

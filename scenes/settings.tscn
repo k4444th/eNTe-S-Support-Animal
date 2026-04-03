@@ -1,0 +1,29 @@
+[gd_scene format=3 uid="uid://24i8yx2b6hho"]
+
+[ext_resource type="Script" uid="uid://b0m2mfk3wpvw4" path="res://scripts/settings.gd" id="1_5p8wc"]
+[ext_resource type="Texture2D" uid="uid://dnwhu8vtl4th3" path="res://assets/CloseButton.png" id="2_r6d6q"]
+
+[node name="Settings" type="Node2D" unique_id=1746651466]
+script = ExtResource("1_5p8wc")
+
+[node name="Background" type="ColorRect" parent="." unique_id=1556505347]
+offset_right = 200.0
+offset_bottom = 400.0
+color = Color(0.23529412, 0.25490198, 0.27450982, 1)
+
+[node name="Margin" type="MarginContainer" parent="Background" unique_id=1622241631]
+layout_mode = 0
+offset_right = 200.0
+offset_bottom = 400.0
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="CloseButton" type="TextureButton" parent="Background/Margin" unique_id=124295865]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+texture_normal = ExtResource("2_r6d6q")
+
+[connection signal="pressed" from="Background/Margin/CloseButton" to="." method="_on_close_button_pressed"]
