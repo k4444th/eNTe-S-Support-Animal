@@ -17,7 +17,7 @@ var totalPolygon := PackedVector2Array()
 @onready var cameraNode := $Camera
 
 func _ready() -> void:
-	spriteNode.parachuteNode.parachuteClosed.connect(resetMousePassthroughArea)
+	spriteNode.parachuteNode.parachuteClosed.connect(parachuteClosed)
 	
 	var window = get_window()
 	
@@ -36,17 +36,6 @@ func _ready() -> void:
 	window.position = Vector2i(0, yPos)
 	
 	setMousePassthroughArea(spriteNode.visibleAreaNode)
-
-func setMousePassthroughArea(area: Polygon2D):
-	var clickableArea = PackedVector2Array()
-	
-	for p in area.polygon:
-		clickableArea.append(get_viewport().get_canvas_transform() * spriteNode.clickableAreaNode.to_global(p))
-	
-	DisplayServer.window_set_mouse_passthrough(clickableArea)
-
-func resetMousePassthroughArea():
-	setMousePassthroughArea(spriteNode.clickableAreaNode)
 	
 func _process(_delta: float) -> void:
 	if isDragging and not Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
@@ -97,6 +86,17 @@ func _input(event: InputEvent) -> void:
 		if isDragging:
 			lastMousePosition = mousePos
 			drag()
+
+func setMousePassthroughArea(area: Polygon2D):
+	var clickableArea = PackedVector2Array()
+	
+	for p in area.polygon:
+		clickableArea.append(get_viewport().get_canvas_transform() * spriteNode.clickableAreaNode.to_global(p))
+	
+	DisplayServer.window_set_mouse_passthrough(clickableArea)
+
+func parachuteClosed():
+	setMousePassthroughArea(spriteNode.clickableAreaNode)
 
 func startDrag():
 	var window = get_window()
