@@ -17,7 +17,7 @@ var totalPolygon := PackedVector2Array()
 @onready var cameraNode := $Camera
 
 func _ready() -> void:
-	spriteNode.parachuteNode.parachuteClosed.connect(parachuteClosed)
+	spriteNode.parachuteNode.parachuteClosed.connect(resetMousePassthroughArea)
 	
 	var window = get_window()
 	
@@ -27,17 +27,27 @@ func _ready() -> void:
 	window.always_on_top = true
 	window.unresizable = true
 	
-	window.size = Vector2(spriteNode.duckNode.sprite_frames.get_frame_texture("idleDarkBlue", 4).get_size() * Globals.cameraZoom)
+	window.size = Vector2(spriteNode.duckNode.sprite_frames.get_frame_texture("idleDarkBlue", 4).get_width() * Globals.cameraZoom.x, spriteNode.parachuteNode.sprite_frames.get_frame_texture("open", 0).get_height() * Globals.cameraZoom.y + (32 * Globals.cameraZoom.y))
 	cameraNode.zoom = Globals.cameraZoom
 	
 	var usableRect := DisplayServer.screen_get_usable_rect()
 	var yPos = usableRect.end.y - window.size.y
 	
-	spriteNode.position.y = 0
 	window.position = Vector2i(0, yPos)
 	
-	setMousePassthroughArea(spriteNode.clickableAreaNode)
+	setMousePassthroughArea(spriteNode.visibleAreaNode)
 
+func setMousePassthroughArea(area: Polygon2D):
+	var clickableArea = PackedVector2Array()
+	
+	for p in area.polygon:
+		clickableArea.append(get_viewport().get_canvas_transform() * spriteNode.clickableAreaNode.to_global(p))
+	
+	DisplayServer.window_set_mouse_passthrough(clickableArea)
+
+func resetMousePassthroughArea():
+	setMousePassthroughArea(spriteNode.clickableAreaNode)
+	
 func _process(_delta: float) -> void:
 	if isDragging and not Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
 		stopDrag()
@@ -88,28 +98,6 @@ func _input(event: InputEvent) -> void:
 			lastMousePosition = mousePos
 			drag()
 
-func setMousePassthroughArea(area: Polygon2D):
-	var clickableArea = PackedVector2Array()
-	
-	for p in area.polygon:
-		clickableArea.append(get_viewport().get_canvas_transform().origin * spriteNode.clickableAreaNode.to_global(p))
-	
-	DisplayServer.window_set_mouse_passthrough(clickableArea)
-
-func parachuteClosed():
-	var window = get_window()
-	
-	window.size = Vector2(spriteNode.duckNode.sprite_frames.get_frame_texture("idleDarkBlue", 4).get_size() * Globals.cameraZoom)
-	var usableRect := DisplayServer.screen_get_usable_rect()
-	var yPos = usableRect.end.y - window.size.y
-	
-	spriteNode.position.y = 0
-	window = get_window()
-	yPos = usableRect.end.y - window.size.y
-	window.position.y = yPos
-	
-	setMousePassthroughArea(spriteNode.clickableAreaNode)
-
 func startDrag():
 	var window = get_window()
 	dragOffset = window.position - Vector2i(DisplayServer.mouse_get_position())
@@ -129,23 +117,15 @@ func stopDrag():
 	
 	if flyTime > parachuteAnimationDuration and window.position.y < yPos:
 		spriteNode.parachuteNode.open()
-		spriteNode.position.y = 24
-		window.position.y -= spriteNode.parachuteNode.sprite_frames.get_frame_texture("open", 0).get_height() * Globals.cameraZoom.y + (32 * Globals.cameraZoom.y) - window.size.y
-		window.size = Vector2(spriteNode.duckNode.sprite_frames.get_frame_texture("idleDarkBlue", 4).get_width() * Globals.cameraZoom.x, spriteNode.parachuteNode.sprite_frames.get_frame_texture("open", 0).get_height() * Globals.cameraZoom.y + (32 * Globals.cameraZoom.y))
 		
 		setMousePassthroughArea(spriteNode.visibleAreaNode)
 	
 	var positionTween = get_tree().create_tween().set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CUBIC)
+	positionTween.tween_property(window, "position", Vector2i(window.position.x, yPos), flyTime)
 	
-	if window.size.y > spriteNode.duckNode.sprite_frames.get_frame_texture("idleDarkBlue", 4).get_height() * Globals.cameraZoom.y:
-		yPos = usableRect.end.y - window.size.y
-		positionTween.tween_property(window, "position", Vector2i(window.position.x, yPos), flyTime)
-		
+	if flyTime > parachuteAnimationDuration and window.position.y < yPos:
 		await positionTween.finished
 		spriteNode.parachuteNode.close()
-	else:
-		positionTween.tween_property(window, "position", Vector2i(window.position.x, yPos), flyTime)
-		window.size = Vector2(spriteNode.duckNode.sprite_frames.get_frame_texture("idleDarkBlue", 4).get_size() * Globals.cameraZoom)
 
 func _on_click_timer_timeout() -> void:
 	if clickPending:
