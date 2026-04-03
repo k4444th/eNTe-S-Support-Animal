@@ -1,25 +1,34 @@
 [gd_scene format=3 uid="uid://carscvxhgdybu"]
 
 [ext_resource type="Texture2D" uid="uid://c4wtk8n086dpg" path="res://assets/SpeechBubble.png" id="1_a8ruc"]
+[ext_resource type="Script" uid="uid://woeism8ke1as" path="res://scripts/speech_bubble.gd" id="2_x4eeu"]
 
 [node name="SpeechBubble" type="NinePatchRect" unique_id=2081239503]
-offset_right = 30.0
-offset_bottom = 30.0
+offset_right = 226.0
+offset_bottom = 100.0
 texture = ExtResource("1_a8ruc")
 patch_margin_left = 24
 patch_margin_top = 3
 patch_margin_right = 3
 patch_margin_bottom = 16
+script = ExtResource("2_x4eeu")
 
-[node name="Label" type="Label" parent="." unique_id=1008357428]
-layout_mode = 0
-offset_left = 10.0
-offset_top = 10.0
-offset_right = 269.0
-offset_bottom = 87.0
+[node name="Margin" type="MarginContainer" parent="." unique_id=751678276]
+clip_contents = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_bottom = 20
+
+[node name="Text" type="Label" parent="Margin" unique_id=1238567478]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+size_flags_vertical = 1
 theme_override_colors/font_color = Color(0, 0, 0, 1)
-text = "Du hast Probleme?
-Wir haben Lösungen!
-IT-Support Hotline:
-+43 316 405 455 222
-"
+autowrap_mode = 3

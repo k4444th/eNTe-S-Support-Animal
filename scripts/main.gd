@@ -58,7 +58,8 @@ func _input(event: InputEvent) -> void:
 				hasFirstClick = false
 				clickPending = false
 				
-				print(Globals.supportHotlineText)
+				spriteNode.duckNode.talk(true)
+				setMousePassthroughArea(spriteNode.visibleSpeechBubbleAreaNode)
 			
 			else:
 				hasFirstClick = true
@@ -149,5 +150,5 @@ func _on_click_timer_timeout() -> void:
 		clickPending = false
 	
 	if !isFlying:
-		spriteNode.duckNode.talk()
+		spriteNode.duckNode.talk(false)
 		setMousePassthroughArea(spriteNode.visibleSpeechBubbleAreaNode)

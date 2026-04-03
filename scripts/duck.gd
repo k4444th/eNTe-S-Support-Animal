@@ -3,8 +3,10 @@ extends AnimatedSprite2D
 var moving := false
 var baseEyePos := Vector2(12, -14)
 var baseBeakPos := Vector2(0, 0)
-var baseSpeechBubblePos := Vector2(32, -57)
-var initialSpeechBubblePosY := baseSpeechBubblePos.y
+var speechBubblePos := Vector2(32, -107)
+var maxSpeechBubblePos := Vector2(32, -107)
+var maxSpeechBubbleSize := Vector2(226, 100)
+var initialSpeechBubblePosY := speechBubblePos.y
 var moveTime := 0.5
 var moveDistance := 100
 var talkCount := 3
@@ -28,7 +30,7 @@ func _ready() -> void:
 	beakNode.play("close" + Globals.beakColor)
 	speechBubbleNode.visible = false
 	initialSpeechBubblePosY = speechBubbleNode.position.y
-
+	
 func _process(_delta: float) -> void:
 	followMouse()
 
@@ -42,26 +44,51 @@ func followMouse():
 	
 	pupilNode.position = pupilsPos
 
-func talk():
+func talk(doubleCLick: bool):
 	if talking:
 		speechBubbleNode.visible = false
 		beakNode.play("close" + Globals.beakColor)
 		talking = false
 		talkEnd.emit()
 	else:
-		beakNode.play("talk" + Globals.beakColor)
+		if doubleCLick:
+			speechBubbleNode.textNode.text = Globals.supportHotlineText
+		else:
+			speechBubbleNode.textNode.text = Globals.selectedQuotes[randi() % len(Globals.selectedQuotes)]
+		
+		speechBubbleNode.size = maxSpeechBubbleSize
+		
+		var font = speechBubbleNode.textNode.get_theme_font("font")
+
+		var textSize = font.get_multiline_string_size(
+			speechBubbleNode.textNode.text,
+			HORIZONTAL_ALIGNMENT_LEFT,
+			maxSpeechBubbleSize.x - 48,
+			speechBubbleNode.textNode.get_theme_font_size("font_size")
+		)
+		
+		speechBubbleNode.size = textSize + Vector2(24, 32)
+		speechBubbleNode.size = speechBubbleNode.size.clamp(Vector2.ZERO, maxSpeechBubbleSize)
+		
+		speechBubblePos.y = maxSpeechBubblePos.y + maxSpeechBubbleSize.y - speechBubbleNode.size.y
+		initialSpeechBubblePosY = speechBubblePos.y
+		
+		speechBubblePos.y = initialSpeechBubblePosY - frame if frame <= 4 else -8 + initialSpeechBubblePosY + frame
+		speechBubbleNode.position = speechBubblePos
+		
 		speechBubbleTimer.start()
 		speechBubbleNode.visible = true
+		beakNode.play("talk" + Globals.beakColor)
 		talking = true
 
 func _on_frame_changed() -> void:
 	baseEyePos.y = -14 - frame if frame <= 4 else -22 + frame
-	baseBeakPos.y = -frame if frame <= 4 else -8 + frame
-	baseSpeechBubblePos.y = initialSpeechBubblePosY - frame if frame <= 4 else -8 + initialSpeechBubblePosY + frame
+	baseBeakPos.y = - frame if frame <= 4 else -8 + frame
+	speechBubblePos.y = initialSpeechBubblePosY - frame if frame <= 4 else -8 + initialSpeechBubblePosY + frame
 	
 	eyeNode.position = baseEyePos
 	beakNode.position = baseBeakPos
-	speechBubbleNode.position = baseSpeechBubblePos
+	speechBubbleNode.position.y = speechBubblePos.y
 
 func _on_blink_timer_timeout() -> void:
 	pupilNode.visible = false
@@ -83,9 +110,3 @@ func _on_beak_animation_finished() -> void:
 			currentTalkCount -= 1
 		else:
 			currentTalkCount = talkCount
-
-func _on_speech_bubble_timer_timeout() -> void:
-	if speechBubbleNode.visible:
-		speechBubbleNode.visible = false
-		talking = false
-		talkEnd.emit()
