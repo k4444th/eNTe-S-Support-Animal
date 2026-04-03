@@ -984,8 +984,8 @@ texture = ExtResource("2_tils5")
 
 [node name="SpeechBubble" parent="." unique_id=2081239503 instance=ExtResource("22_h31it")]
 offset_left = 32.0
-offset_top = -57.0
-offset_right = 112.0
+offset_top = -107.0
+offset_right = 292.0
 offset_bottom = -7.0
 
 [node name="BlinkTimer" type="Timer" parent="." unique_id=343594098]
@@ -994,7 +994,7 @@ one_shot = true
 autostart = true
 
 [node name="SpeechBubbleTimer" type="Timer" parent="." unique_id=1484213180]
-wait_time = 10.0
+wait_time = 7.5
 one_shot = true
 
 [connection signal="frame_changed" from="." to="." method="_on_frame_changed"]

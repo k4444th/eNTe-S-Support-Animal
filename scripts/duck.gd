@@ -4,6 +4,7 @@ var moving := false
 var baseEyePos := Vector2(12, -14)
 var baseBeakPos := Vector2(0, 0)
 var baseSpeechBubblePos := Vector2(32, -57)
+var initialSpeechBubblePosY := baseSpeechBubblePos.y
 var moveTime := 0.5
 var moveDistance := 100
 var talkCount := 3
@@ -26,6 +27,7 @@ func _ready() -> void:
 	eyeNode.play("open")
 	beakNode.play("close" + Globals.beakColor)
 	speechBubbleNode.visible = false
+	initialSpeechBubblePosY = speechBubbleNode.position.y
 
 func _process(_delta: float) -> void:
 	followMouse()
@@ -55,7 +57,7 @@ func talk():
 func _on_frame_changed() -> void:
 	baseEyePos.y = -14 - frame if frame <= 4 else -22 + frame
 	baseBeakPos.y = -frame if frame <= 4 else -8 + frame
-	baseSpeechBubblePos.y = -57 - frame if frame <= 4 else -65 + frame
+	baseSpeechBubblePos.y = initialSpeechBubblePosY - frame if frame <= 4 else initialSpeechBubblePosY + frame
 	
 	eyeNode.position = baseEyePos
 	beakNode.position = baseBeakPos
