@@ -998,7 +998,7 @@ wait_time = 7.5
 one_shot = true
 
 [node name="TalkingSpeedTimer" type="Timer" parent="." unique_id=818870626]
-wait_time = 0.00999999999999999
+wait_time = 0.009999999999999998
 one_shot = true
 
 [connection signal="frame_changed" from="." to="." method="_on_frame_changed"]

@@ -14,6 +14,8 @@ var talkCount := 3
 var talking := false
 var letterIndex = 0
 var currentTalkCount := talkCount
+var duckQuotes = Globals.selectedQuotes.duplicate(true)
+var numberGenerator = RandomNumberGenerator.new()
 
 @onready var eyeNode := $Eye
 @onready var pupilNode := $Eye/Pupil
@@ -31,6 +33,7 @@ func _ready() -> void:
 	tailNode.play("idle" + Globals.duckColor)
 	eyeNode.play("open")
 	beakNode.play("close" + Globals.beakColor)
+	numberGenerator.set_seed(Time.get_unix_time_from_datetime_dict(Time.get_datetime_dict_from_system()))
 	speechBubbleNode.visible = false
 	initialSpeechBubblePosY = speechBubbleNode.position.y
 	
@@ -57,7 +60,12 @@ func talk(doubleCLick: bool):
 		if doubleCLick:
 			text = Globals.supportHotlineText
 		else:
-			text = Globals.selectedQuotes[randi() % len(Globals.selectedQuotes)]
+			if len(duckQuotes) <= 1:
+				duckQuotes = Globals.selectedQuotes.duplicate(true)
+			
+			var quoteIndex = numberGenerator.randi() % len(duckQuotes)
+			text = duckQuotes[quoteIndex]
+			duckQuotes.remove_at(quoteIndex)
 		
 		speechBubbleNode.size = maxSpeechBubbleSize
 		
