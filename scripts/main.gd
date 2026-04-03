@@ -6,6 +6,7 @@ var clickPosition := Vector2.ZERO
 var hasFirstClick := false
 var isDragging := false
 var isFlying := false
+var hasStartedDrag := false
 var dragStartPosition := Vector2.ZERO
 var lastMousePosition := Vector2.ZERO
 var dragThreshold := 5.0
@@ -103,13 +104,14 @@ func startDrag():
 	if isFlying:
 		return
 	
+	hasStartedDrag = true
 	spriteNode.duckNode.beakNode.play("close" + Globals.beakColor)
 	spriteNode.duckNode.talking = false
 	spriteNode.duckNode.speechBubbleNode.visible = false
 	spriteNode.duckNode.talkEnd.emit()
 
 func drag():
-	if isFlying:
+	if isFlying or !hasStartedDrag:
 		return
 	
 	spriteNode.position = get_local_mouse_position()
@@ -152,7 +154,9 @@ func stopDrag():
 		spriteNode.parachuteNode.close()
 	else:
 		setMousePassthroughArea(spriteNode.clickableAreaNode)
-		isFlying = false
+	
+	isFlying = false
+	hasStartedDrag = false
 
 func talkEnd():
 	setMousePassthroughArea(spriteNode.clickableAreaNode)
