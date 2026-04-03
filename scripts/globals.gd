@@ -57,7 +57,7 @@ var quotes := [
 		"Ich warte, während du neu startest.",
 		"Ich bin eben ein Feature mit Charakter.",
 		"Das Problem sitzt vermutlich vor dem Bildschirm.",
-		"Ein Neustart löst 80 % aller Probleme.",
+		"Ein Neustart löst 80% aller Probleme.",
 		"Ich sehe das Problem... und ich ignoriere es.",
 		"Das merke ich mir... vielleicht.",
 		"Also ich war das nicht!",

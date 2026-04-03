@@ -97,14 +97,21 @@ func setMousePassthroughArea(area: Polygon2D):
 
 func parachuteClosed():
 	setMousePassthroughArea(spriteNode.clickableAreaNode)
+	isFlying = false
 
 func startDrag():
+	if isFlying:
+		return
+	
 	spriteNode.duckNode.beakNode.play("close" + Globals.beakColor)
 	spriteNode.duckNode.talking = false
 	spriteNode.duckNode.speechBubbleNode.visible = false
 	spriteNode.duckNode.talkEnd.emit()
 
 func drag():
+	if isFlying:
+		return
+	
 	spriteNode.position = get_local_mouse_position()
 	
 	var usableRect := DisplayServer.screen_get_usable_rect()
@@ -120,6 +127,9 @@ func drag():
 	setMousePassthroughArea(wholeScreenArea)
 
 func stopDrag():
+	if isFlying:
+		return
+	
 	var window = get_window()
 	var yPos = floor(window.size.y / (Globals.cameraZoom.y * 2) - spriteNode.duckNode.sprite_frames.get_frame_texture("idleDarkBlue", 4).get_height() / 2)
 	var usableRect := DisplayServer.screen_get_usable_rect()
@@ -138,8 +148,6 @@ func stopDrag():
 	if flyTime > parachuteAnimationDuration and spriteNode.position.y < usableRect.size.y / Globals.cameraZoom.y / 2:
 		await positionTween.finished
 		spriteNode.parachuteNode.close()
-	
-	isFlying = false
 
 func talkEnd():
 	setMousePassthroughArea(spriteNode.clickableAreaNode)
