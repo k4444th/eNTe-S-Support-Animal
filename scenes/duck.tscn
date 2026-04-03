@@ -997,8 +997,13 @@ autostart = true
 wait_time = 7.5
 one_shot = true
 
+[node name="TalkingSpeedTimer" type="Timer" parent="." unique_id=818870626]
+wait_time = 0.00999999999999999
+one_shot = true
+
 [connection signal="frame_changed" from="." to="." method="_on_frame_changed"]
 [connection signal="animation_finished" from="Beak" to="." method="_on_beak_animation_finished"]
 [connection signal="animation_finished" from="Eye" to="." method="_on_eye_animation_finished"]
 [connection signal="timeout" from="BlinkTimer" to="." method="_on_blink_timer_timeout"]
 [connection signal="timeout" from="SpeechBubbleTimer" to="." method="_on_speech_bubble_timer_timeout"]
+[connection signal="timeout" from="TalkingSpeedTimer" to="." method="_on_talking_speed_timer_timeout"]

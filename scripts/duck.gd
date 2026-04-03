@@ -7,10 +7,12 @@ var speechBubblePos := Vector2(32, -107)
 var maxSpeechBubblePos := Vector2(32, -107)
 var maxSpeechBubbleSize := Vector2(200, 100)
 var initialSpeechBubblePosY := speechBubblePos.y
+var text = ""
 var moveTime := 0.5
 var moveDistance := 100
 var talkCount := 3
 var talking := false
+var letterIndex = 0
 var currentTalkCount := talkCount
 
 @onready var eyeNode := $Eye
@@ -20,6 +22,7 @@ var currentTalkCount := talkCount
 @onready var speechBubbleNode := $SpeechBubble
 @onready var blinkTimer := $BlinkTimer
 @onready var speechBubbleTimer := $SpeechBubbleTimer
+@onready var talkingSpeedTimer := $TalkingSpeedTimer
 
 signal talkEnd()
 
@@ -52,16 +55,16 @@ func talk(doubleCLick: bool):
 		talkEnd.emit()
 	else:
 		if doubleCLick:
-			speechBubbleNode.textNode.text = Globals.supportHotlineText
+			text = Globals.supportHotlineText
 		else:
-			speechBubbleNode.textNode.text = Globals.selectedQuotes[randi() % len(Globals.selectedQuotes)]
+			text = Globals.selectedQuotes[randi() % len(Globals.selectedQuotes)]
 		
 		speechBubbleNode.size = maxSpeechBubbleSize
 		
 		var font = speechBubbleNode.textNode.get_theme_font("font")
 
 		var textSize = font.get_multiline_string_size(
-			speechBubbleNode.textNode.text,
+			text,
 			HORIZONTAL_ALIGNMENT_LEFT,
 			maxSpeechBubbleSize.x - 48,
 			speechBubbleNode.textNode.get_theme_font_size("font_size")
@@ -78,8 +81,13 @@ func talk(doubleCLick: bool):
 		
 		speechBubbleTimer.start()
 		speechBubbleNode.visible = true
-		beakNode.play("talk" + Globals.beakColor)
 		talking = true
+		
+		speechBubbleNode.textNode.text = ""
+		beakNode.play("talk" + Globals.beakColor)
+		
+		letterIndex = 0
+		talkingSpeedTimer.start()
 
 func _on_frame_changed() -> void:
 	baseEyePos.y = -14 - frame if frame <= 4 else -22 + frame
@@ -110,3 +118,17 @@ func _on_beak_animation_finished() -> void:
 			currentTalkCount -= 1
 		else:
 			currentTalkCount = talkCount
+
+func _on_speech_bubble_timer_timeout() -> void:
+	speechBubbleNode.visible = false
+	beakNode.play("close" + Globals.beakColor)
+	talking = false
+	talkEnd.emit()
+
+
+func _on_talking_speed_timer_timeout() -> void:
+	speechBubbleNode.textNode.text += text[letterIndex]
+	letterIndex += 1
+	
+	if letterIndex < text.length():
+		talkingSpeedTimer.start()
