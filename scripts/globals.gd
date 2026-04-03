@@ -38,6 +38,15 @@ var parachuteBackgrounds = [
 	"Dark"
 ]
 
+var personalities = [
+	"Intelligent",
+	"Motivational",
+	"Funny",
+	"Sarcastic"
+]
+
+var supportHotlineText = "Du hast Probleme?\nWir haben Lösungen!\nIT-Support Hotline: +43 316 405 455 222\n"
+
 var colorIndex = 7
 var parachuteColorIndex = 0
 var parachuteBackgroundIndex = 0

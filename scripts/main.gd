@@ -28,13 +28,13 @@ func _ready() -> void:
 	window.always_on_top = true
 	window.unresizable = true
 	
-	window.size = Vector2((spriteNode.duckNode.sprite_frames.get_frame_texture("idleDarkBlue", 4).get_width() + 2 + spriteNode.duckNode.speechBubbleNode.size.x) * Globals.cameraZoom.x, spriteNode.parachuteNode.sprite_frames.get_frame_texture("open", 0).get_height() * Globals.cameraZoom.y + (32 * Globals.cameraZoom.y))
-	cameraNode.zoom = Globals.cameraZoom
-	
 	var usableRect := DisplayServer.screen_get_usable_rect()
-	var yPos = usableRect.end.y - window.size.y
 	
-	window.position = Vector2i(0, yPos)
+	cameraNode.zoom = Globals.cameraZoom
+	window.size = usableRect.size
+	window.position = usableRect.position
+	
+	spriteNode.position = Vector2i(floor(-usableRect.size.x / (Globals.cameraZoom.x * 2) + spriteNode.duckNode.sprite_frames.get_frame_texture("idleDarkBlue", 4).get_width() / 2), floor(usableRect.size.y / (Globals.cameraZoom.y * 2) - spriteNode.duckNode.sprite_frames.get_frame_texture("idleDarkBlue", 4).get_height() / 2))
 	
 	setMousePassthroughArea(spriteNode.clickableAreaNode)
 	
@@ -45,7 +45,6 @@ func _process(_delta: float) -> void:
 
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
-		
 		if event.pressed:
 			clickPosition = event.position
 			dragStartPosition = event.position
@@ -58,19 +57,17 @@ func _input(event: InputEvent) -> void:
 				hasFirstClick = false
 				clickPending = false
 				
-				print("Du hast Probleme?\nWir haben Lösungen!\nIT-Support Hotline: +43 316 405 455 222\n")
+				print(Globals.supportHotlineText)
 			
 			else:
 				hasFirstClick = true
 				clickPending = true
 				clickTimer.start()
-		
 		else:
 			if isDragging:
 				stopDrag()
 			
 			isDragging = false
-
 
 	elif event is InputEventMouseMotion:
 		var mousePos = event.position
@@ -81,8 +78,6 @@ func _input(event: InputEvent) -> void:
 				clickPending = false
 				hasFirstClick = false
 				clickTimer.stop()
-				
-				startDrag()
 		
 		if isDragging:
 			lastMousePosition = mousePos
@@ -90,30 +85,24 @@ func _input(event: InputEvent) -> void:
 
 func setMousePassthroughArea(area: Polygon2D):
 	var clickableArea = PackedVector2Array()
+	var usableRect = DisplayServer.screen_get_usable_rect()
 	
 	for p in area.polygon:
-		clickableArea.append(get_viewport().get_canvas_transform() * spriteNode.clickableAreaNode.to_global(p))
-	
+		clickableArea.append(Globals.cameraZoom * p + Vector2(spriteNode.position) * Globals.cameraZoom + Vector2(usableRect.size) / 2)
+
 	DisplayServer.window_set_mouse_passthrough(clickableArea)
 
 func parachuteClosed():
 	setMousePassthroughArea(spriteNode.clickableAreaNode)
 
-func startDrag():
-	var window = get_window()
-	dragOffset = window.position - Vector2i(DisplayServer.mouse_get_position())
-
 func drag():
-	var window = get_window()
-	var mouseGlobalPos = DisplayServer.mouse_get_position()
-	window.position = mouseGlobalPos + dragOffset
+	spriteNode.position = get_local_mouse_position()
 
 func stopDrag():
 	var window = get_window()
-	var usableRect := DisplayServer.screen_get_usable_rect()
-	var yPos = usableRect.end.y - window.size.y
+	var yPos = floor(window.size.y / (Globals.cameraZoom.y * 2) - spriteNode.duckNode.sprite_frames.get_frame_texture("idleDarkBlue", 4).get_height() / 2)
 	
-	var flyTime = pow(abs(window.position.y - yPos), 0.7) * 0.01
+	var flyTime = pow(abs(spriteNode.position.y - yPos), 0.7) * 0.01
 	var parachuteAnimationDuration = (1 / spriteNode.parachuteNode.sprite_frames.get_animation_speed("opening")) * spriteNode.parachuteNode.sprite_frames.get_frame_count("opening")
 	
 	if flyTime > parachuteAnimationDuration and window.position.y < yPos:
@@ -122,7 +111,7 @@ func stopDrag():
 		setMousePassthroughArea(spriteNode.visibleParachuteAreaNode)
 	
 	var positionTween = get_tree().create_tween().set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CUBIC)
-	positionTween.tween_property(window, "position", Vector2i(window.position.x, yPos), flyTime)
+	positionTween.tween_property(spriteNode, "position:y", yPos, flyTime)
 	
 	if flyTime > parachuteAnimationDuration and window.position.y < yPos:
 		await positionTween.finished

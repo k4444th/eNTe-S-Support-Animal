@@ -7,7 +7,6 @@
 script = ExtResource("1_0wfyh")
 
 [node name="Sprite" parent="." unique_id=1921146517 instance=ExtResource("2_0wfyh")]
-position = Vector2(-41, 24)
 
 [node name="Camera" type="Camera2D" parent="." unique_id=335239124]
 zoom = Vector2(2.5, 2.5)
