@@ -11,6 +11,7 @@ var dragStartPosition := Vector2.ZERO
 var lastMousePosition := Vector2.ZERO
 var dragThreshold := 5.0
 var dragOffset := Vector2i.ZERO
+var settingsOpen := false
 var settingsJustClosed := false
 var totalPolygon := PackedVector2Array()
 
@@ -50,9 +51,10 @@ func _process(_delta: float) -> void:
 		isDragging = false
 
 func _input(event: InputEvent) -> void:
-	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and not settingsJustClosed:
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and not settingsJustClosed and not settingsOpen:
 		if event.pressed:
 			settingsNode.hideSettings()
+			settingsOpen = false
 			
 			clickPosition = event.position
 			dragStartPosition = event.position
@@ -93,9 +95,10 @@ func _input(event: InputEvent) -> void:
 			lastMousePosition = mousePos
 			drag()
 	
-	elif event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_RIGHT:
+	elif event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_RIGHT and not settingsOpen:
 		if event.pressed:
 			settingsNode.showSettings(event.position)
+			settingsOpen = true
 			
 			if spriteNode.duckNode.talking:
 				spriteNode.duckNode.speechBubbleNode.visible = false
@@ -129,6 +132,7 @@ func parachuteClosed():
 	isFlying = false
 
 func closeSettings():
+	settingsOpen = false
 	settingsJustClosed = true
 	settingsDelayTimer.start()
 	setMousePassthroughArea(spriteNode.clickableAreaNode)

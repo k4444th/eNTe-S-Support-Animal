@@ -12,8 +12,10 @@ func _input(event: InputEvent) -> void:
 		var settingsRect = Rect2(position + Vector2(usableRect.size) / Globals.cameraZoom / 2, backgroundNode.size)
 		
 		if visible and not settingsRect.has_point(event.position  / Globals.cameraZoom):
-			print("Click outside Settings")
 			hideSettings()
+		else:
+			print("Click in Settings")
+			
 
 func showSettings(clickPosition: Vector2):
 	var usableRect := DisplayServer.screen_get_usable_rect()
