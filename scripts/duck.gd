@@ -45,6 +45,7 @@ func talk():
 		speechBubbleNode.visible = false
 		beakNode.play("close" + Globals.beakColor)
 		talking = false
+		talkEnd.emit()
 	else:
 		beakNode.play("talk" + Globals.beakColor)
 		speechBubbleTimer.start()
@@ -80,8 +81,9 @@ func _on_beak_animation_finished() -> void:
 			currentTalkCount -= 1
 		else:
 			currentTalkCount = talkCount
-			talkEnd.emit()
 
 func _on_speech_bubble_timer_timeout() -> void:
-	speechBubbleNode.visible = false
-	talking = false
+	if speechBubbleNode.visible:
+		speechBubbleNode.visible = false
+		talking = false
+		talkEnd.emit()
