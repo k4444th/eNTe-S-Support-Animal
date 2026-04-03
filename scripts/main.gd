@@ -138,16 +138,21 @@ func stopDrag():
 	var parachuteAnimationDuration = (1 / spriteNode.parachuteNode.sprite_frames.get_animation_speed("opening")) * spriteNode.parachuteNode.sprite_frames.get_frame_count("opening")
 	
 	isFlying = true
+	var spriteStartPos = spriteNode.position.y
 	
-	if flyTime > parachuteAnimationDuration and spriteNode.position.y < usableRect.size.y / Globals.cameraZoom.y / 2:
+	if flyTime > parachuteAnimationDuration and spriteStartPos < usableRect.size.y / Globals.cameraZoom.y / 2:
 		spriteNode.parachuteNode.open()
 	
 	var positionTween = get_tree().create_tween().set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CUBIC)
 	positionTween.tween_property(spriteNode, "position:y", yPos, flyTime)
 	
-	if flyTime > parachuteAnimationDuration and spriteNode.position.y < usableRect.size.y / Globals.cameraZoom.y / 2:
-		await positionTween.finished
+	await positionTween.finished
+	
+	if flyTime > parachuteAnimationDuration and spriteStartPos < usableRect.size.y / Globals.cameraZoom.y / 2:
 		spriteNode.parachuteNode.close()
+	else:
+		setMousePassthroughArea(spriteNode.clickableAreaNode)
+		isFlying = false
 
 func talkEnd():
 	setMousePassthroughArea(spriteNode.clickableAreaNode)
