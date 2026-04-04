@@ -9,11 +9,10 @@ func _ready() -> void:
 	visible = false
 	colorNode.visible = false
 	backgroundNode.visible = false
-	
-	colorNode.play(Globals.parachuteColor)
-	backgroundNode.play(Globals.parachuteBackground)
 
 func open():
+	colorNode.play(Globals.parachuteColor)
+	backgroundNode.play(Globals.parachuteBackground)
 	visible = true
 	play("opening")
 

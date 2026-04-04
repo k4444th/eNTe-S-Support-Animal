@@ -6,6 +6,8 @@ var settingsPosition: Vector2
 @onready var backgroundNode := $Background
 @onready var sizeSliderNode := $Background/Margin/VBox/HBox3/SizeSlider
 @onready var duckColorMenuNode := $Background/Margin/VBox/HBox4/DuckColorMenu
+@onready var parachuteColorMenuNode := $Background/Margin/VBox/HBox5/ParachuteColorMenu
+@onready var parachuteBackgroundcolorMenuNode := $Background/Margin/VBox/HBox6/ParachuteBackgroundColorMenu
 
 signal closeSettings()
 signal settingsChanged()
@@ -55,4 +57,18 @@ func _on_duck_color_button_pressed() -> void:
 
 func _on_duck_color_menu_id_pressed(id: int) -> void:
 	Globals.colorIndex = id
+	settingsChanged.emit()
+
+func _on_parachute_color_button_pressed() -> void:
+	parachuteColorMenuNode.popup()
+
+func _on_parachute_color_menu_id_pressed(id: int) -> void:
+	Globals.parachuteColorIndex = id
+	settingsChanged.emit()
+
+func _on_parachute_background_color_button_pressed() -> void:
+	parachuteBackgroundcolorMenuNode.popup()
+
+func _on_parachute_background_color_menu_id_pressed(id: int) -> void:
+	Globals.parachuteBackgroundIndex = id
 	settingsChanged.emit()
