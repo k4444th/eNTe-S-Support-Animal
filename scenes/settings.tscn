@@ -1,29 +1,84 @@
 [gd_scene format=3 uid="uid://24i8yx2b6hho"]
 
 [ext_resource type="Script" uid="uid://b0m2mfk3wpvw4" path="res://scripts/settings.gd" id="1_5p8wc"]
-[ext_resource type="Texture2D" uid="uid://dnwhu8vtl4th3" path="res://assets/CloseButton.png" id="2_r6d6q"]
 
 [node name="Settings" type="Node2D" unique_id=1746651466]
 script = ExtResource("1_5p8wc")
 
 [node name="Background" type="ColorRect" parent="." unique_id=1556505347]
 offset_right = 200.0
-offset_bottom = 400.0
+offset_bottom = 300.0
 color = Color(0.23529412, 0.25490198, 0.27450982, 1)
 
 [node name="Margin" type="MarginContainer" parent="Background" unique_id=1622241631]
 layout_mode = 0
 offset_right = 200.0
-offset_bottom = 400.0
+offset_bottom = 300.0
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
 theme_override_constants/margin_bottom = 10
 
-[node name="CloseButton" type="TextureButton" parent="Background/Margin" unique_id=124295865]
+[node name="VBox" type="VBoxContainer" parent="Background/Margin" unique_id=2134473737]
+layout_mode = 2
+
+[node name="HBox1" type="HBoxContainer" parent="Background/Margin/VBox" unique_id=1972702614]
+layout_mode = 2
+
+[node name="SettingsLabel" type="Label" parent="Background/Margin/VBox/HBox1" unique_id=925642066]
+layout_mode = 2
+text = "Einstellungen"
+
+[node name="Spacer" type="Control" parent="Background/Margin/VBox/HBox1" unique_id=1944475270]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="CloseButton" type="Button" parent="Background/Margin/VBox/HBox1" unique_id=1541398606]
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 0
-texture_normal = ExtResource("2_r6d6q")
+text = " X "
+flat = true
 
-[connection signal="pressed" from="Background/Margin/CloseButton" to="." method="_on_close_button_pressed"]
+[node name="Spacer1" type="Control" parent="Background/Margin/VBox" unique_id=1954464440]
+custom_minimum_size = Vector2(0, 5)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HBox2" type="HBoxContainer" parent="Background/Margin/VBox" unique_id=343407457]
+layout_mode = 2
+
+[node name="NameLabel" type="Label" parent="Background/Margin/VBox/HBox2" unique_id=1545228125]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "Name: "
+
+[node name="NameEdit" type="LineEdit" parent="Background/Margin/VBox/HBox2" unique_id=1639503014]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 12
+placeholder_text = "Wie heißt deine Ente?"
+
+[node name="Spacer2" type="Control" parent="Background/Margin/VBox" unique_id=2090765303]
+custom_minimum_size = Vector2(0, 5)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HBox3" type="HBoxContainer" parent="Background/Margin/VBox" unique_id=156791450]
+layout_mode = 2
+
+[node name="SizeLabel" type="Label" parent="Background/Margin/VBox/HBox3" unique_id=914624183]
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+text = "Größe: "
+
+[node name="SizeSlider" type="HSlider" parent="Background/Margin/VBox/HBox3" unique_id=505013658]
+layout_mode = 2
+size_flags_horizontal = 3
+min_value = 1.0
+max_value = 10.0
+step = 0.1
+value = 1.0
+
+[connection signal="pressed" from="Background/Margin/VBox/HBox1/CloseButton" to="." method="_on_close_button_pressed"]
+[connection signal="drag_ended" from="Background/Margin/VBox/HBox3/SizeSlider" to="." method="_on_size_slider_drag_ended"]

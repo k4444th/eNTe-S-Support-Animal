@@ -26,6 +26,7 @@ func _ready() -> void:
 	spriteNode.parachuteNode.parachuteClosed.connect(parachuteClosed)
 	spriteNode.duckNode.talkEnd.connect(talkEnd)
 	settingsNode.closeSettings.connect(closeSettings)
+	settingsNode.settingsChanged.connect(settingsChanged)
 	
 	var window = get_window()
 	
@@ -136,6 +137,12 @@ func closeSettings():
 	settingsJustClosed = true
 	settingsDelayTimer.start()
 	setMousePassthroughArea(spriteNode.clickableAreaNode)
+
+func settingsChanged():
+	cameraNode.zoom = Globals.cameraZoom
+	
+	var usableRect := DisplayServer.screen_get_usable_rect()
+	spriteNode.position = Vector2i(floor(-usableRect.size.x / (Globals.cameraZoom.x * 2) + spriteNode.duckNode.sprite_frames.get_frame_texture("idleDarkBlue", 4).get_width() / 2), floor(usableRect.size.y / (Globals.cameraZoom.y * 2) - spriteNode.duckNode.sprite_frames.get_frame_texture("idleDarkBlue", 4).get_height() / 2))
 
 func startDrag():
 	if isFlying:

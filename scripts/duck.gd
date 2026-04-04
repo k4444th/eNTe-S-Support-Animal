@@ -74,11 +74,11 @@ func talk(doubleCLick: bool):
 		var textSize = font.get_multiline_string_size(
 			text,
 			HORIZONTAL_ALIGNMENT_LEFT,
-			maxSpeechBubbleSize.x - 48,
+			maxSpeechBubbleSize.x - (speechBubbleNode.marginNode.get_theme_constant("margin_left") + speechBubbleNode.marginNode.get_theme_constant("margin_right")),
 			speechBubbleNode.textNode.get_theme_font_size("font_size")
 		)
 		
-		speechBubbleNode.size = textSize + Vector2(24, 32)
+		speechBubbleNode.size = textSize + Vector2(speechBubbleNode.marginNode.get_theme_constant("margin_left") + speechBubbleNode.marginNode.get_theme_constant("margin_right"), speechBubbleNode.marginNode.get_theme_constant("margin_top") + speechBubbleNode.marginNode.get_theme_constant("margin_bottom"))
 		speechBubbleNode.size = speechBubbleNode.size.clamp(Vector2.ZERO, maxSpeechBubbleSize)
 		
 		speechBubblePos.y = maxSpeechBubblePos.y + maxSpeechBubbleSize.y - speechBubbleNode.size.y
