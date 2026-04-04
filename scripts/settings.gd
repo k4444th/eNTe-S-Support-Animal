@@ -1,7 +1,6 @@
 extends Node2D
 
 var open := false
-var spawnOrigin: Vector2
 var settingsPosition: Vector2
 
 @onready var backgroundNode := $Background
