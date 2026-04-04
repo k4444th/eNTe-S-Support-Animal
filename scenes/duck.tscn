@@ -665,7 +665,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"idleLightBlue",
-"speed": 5.0
+"speed": 10.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -723,7 +723,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"idleOrange",
-"speed": 5.0
+"speed": 10.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -781,7 +781,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"idlePurple",
-"speed": 5.0
+"speed": 10.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -968,7 +968,7 @@ script = ExtResource("2_ircvx")
 
 [node name="Tail" type="AnimatedSprite2D" parent="." unique_id=1585374085]
 sprite_frames = SubResource("SpriteFrames_ctb7n")
-animation = &"idleYellow"
+animation = &"idleLightBlue"
 
 [node name="Beak" type="AnimatedSprite2D" parent="." unique_id=421490155]
 sprite_frames = SubResource("SpriteFrames_eynlo")
@@ -998,7 +998,7 @@ wait_time = 7.5
 one_shot = true
 
 [node name="TalkingSpeedTimer" type="Timer" parent="." unique_id=818870626]
-wait_time = 0.009999999999999998
+wait_time = 0.00999999999999999
 one_shot = true
 
 [connection signal="frame_changed" from="." to="." method="_on_frame_changed"]

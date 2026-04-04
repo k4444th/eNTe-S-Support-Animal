@@ -143,6 +143,13 @@ func settingsChanged():
 	
 	var usableRect := DisplayServer.screen_get_usable_rect()
 	spriteNode.position = Vector2i(floor(-usableRect.size.x / (Globals.cameraZoom.x * 2) + spriteNode.duckNode.sprite_frames.get_frame_texture("idleDarkBlue", 4).get_width() / 2), floor(usableRect.size.y / (Globals.cameraZoom.y * 2) - spriteNode.duckNode.sprite_frames.get_frame_texture("idleDarkBlue", 4).get_height() / 2))
+	
+	Globals.duckColor = Globals.duckColors[Globals.colorIndex]
+	Globals.beakColor = Globals.beakColors[Globals.colorIndex]
+	
+	spriteNode.duckNode.play("idle" + Globals.duckColor)
+	spriteNode.duckNode.tailNode.play("idle" + Globals.duckColor)
+	spriteNode.duckNode.beakNode.play("close" + Globals.beakColor)
 
 func startDrag():
 	if isFlying:
