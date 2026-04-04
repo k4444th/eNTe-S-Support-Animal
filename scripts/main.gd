@@ -148,10 +148,12 @@ func settingsChanged():
 	Globals.beakColor = Globals.beakColors[Globals.colorIndex]
 	Globals.parachuteColor = Globals.parachuteColors[Globals.parachuteColorIndex]
 	Globals.parachuteBackground = Globals.parachuteBackgrounds[Globals.parachuteBackgroundIndex]
+	Globals.selectedQuotes = Globals.quotes[Globals.personalityIndex].duplicate(true)
 	
 	spriteNode.duckNode.play("idle" + Globals.duckColor)
 	spriteNode.duckNode.tailNode.play("idle" + Globals.duckColor)
 	spriteNode.duckNode.beakNode.play("close" + Globals.beakColor)
+	spriteNode.duckNode.duckQuotes = Globals.selectedQuotes.duplicate(true)
 
 func startDrag():
 	if isFlying:

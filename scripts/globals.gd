@@ -46,7 +46,9 @@ var personalities = [
 ]
 
 var quotes := [
-	[],
+	[
+		"ToDo: Sprüche hinzufügen"
+	],
 	[
 		"Das ist kein Fehler... das ist ein kreatives Verhalten.",
 		"Interessant sehr interessant."
@@ -81,6 +83,6 @@ var parachuteColor = parachuteColors[parachuteColorIndex]
 var parachuteBackground = parachuteBackgrounds[parachuteBackgroundIndex]
 
 var personalityIndex = 2
-var selectedQuotes = quotes[personalityIndex]
+var selectedQuotes = quotes[personalityIndex].duplicate(true)
 
 var cameraZoom = Vector2(2.5, 2.5)

@@ -8,6 +8,7 @@ var settingsPosition: Vector2
 @onready var duckColorMenuNode := $Background/Margin/VBox/HBox4/DuckColorMenu
 @onready var parachuteColorMenuNode := $Background/Margin/VBox/HBox5/ParachuteColorMenu
 @onready var parachuteBackgroundcolorMenuNode := $Background/Margin/VBox/HBox6/ParachuteBackgroundColorMenu
+@onready var characterMenuNode := $Background/Margin/VBox/HBox7/CharacterMenu
 
 signal closeSettings()
 signal settingsChanged()
@@ -71,4 +72,11 @@ func _on_parachute_background_color_button_pressed() -> void:
 
 func _on_parachute_background_color_menu_id_pressed(id: int) -> void:
 	Globals.parachuteBackgroundIndex = id
+	settingsChanged.emit()
+
+func _on_character_button_pressed() -> void:
+	characterMenuNode.popup()
+
+func _on_character_menu_id_pressed(id: int) -> void:
+	Globals.personalityIndex = id
 	settingsChanged.emit()
