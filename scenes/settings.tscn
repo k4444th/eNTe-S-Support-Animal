@@ -96,7 +96,6 @@ text = "Enten-Farbe:"
 [node name="DuckColorButton" type="Button" parent="Background/Margin/VBox/HBox4" unique_id=955160193]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_colors/font_color = Color(0.5019608, 0.5019608, 0.5019608, 1)
 theme_override_font_sizes/font_size = 12
 text = "Wähle deine Farbe"
 alignment = 0
@@ -140,7 +139,6 @@ text = "Fallschirm-Farbe:"
 [node name="ParachuteColorButton" type="Button" parent="Background/Margin/VBox/HBox5" unique_id=1278840858]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_colors/font_color = Color(0.5019608, 0.5019608, 0.5019608, 1)
 theme_override_font_sizes/font_size = 12
 text = "Wähle deine Farbe"
 alignment = 0
@@ -184,7 +182,6 @@ text = "Hintergrund-Farbe:"
 [node name="ParachuteBackgroundColorButton" type="Button" parent="Background/Margin/VBox/HBox6" unique_id=1380943158]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_colors/font_color = Color(0.5019608, 0.5019608, 0.5019608, 1)
 theme_override_font_sizes/font_size = 12
 text = "Farbe"
 alignment = 0
@@ -216,7 +213,6 @@ text = "Charakter:"
 [node name="CharacterButton" type="Button" parent="Background/Margin/VBox/HBox7" unique_id=294582825]
 layout_mode = 2
 size_flags_horizontal = 3
-theme_override_colors/font_color = Color(0.5019608, 0.5019608, 0.5019608, 1)
 theme_override_font_sizes/font_size = 12
 text = "Wähle deinen Charakter"
 alignment = 0
@@ -237,6 +233,7 @@ item_3/text = "Sarkastisch"
 item_3/id = 3
 
 [connection signal="pressed" from="Background/Margin/VBox/HBox1/CloseButton" to="." method="_on_close_button_pressed"]
+[connection signal="text_submitted" from="Background/Margin/VBox/HBox2/NameEdit" to="." method="_on_name_edit_text_submitted"]
 [connection signal="drag_ended" from="Background/Margin/VBox/HBox3/SizeSlider" to="." method="_on_size_slider_drag_ended"]
 [connection signal="pressed" from="Background/Margin/VBox/HBox4/DuckColorButton" to="." method="_on_duck_color_button_pressed"]
 [connection signal="id_pressed" from="Background/Margin/VBox/HBox4/DuckColorMenu" to="." method="_on_duck_color_menu_id_pressed"]

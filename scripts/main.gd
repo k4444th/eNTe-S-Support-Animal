@@ -139,10 +139,13 @@ func closeSettings():
 	setMousePassthroughArea(spriteNode.clickableAreaNode)
 
 func settingsChanged():
+	print(spriteNode.position.x * Globals.cameraZoom.x)
 	cameraNode.zoom = Globals.cameraZoom
 	
 	var usableRect := DisplayServer.screen_get_usable_rect()
-	spriteNode.position = Vector2i(floor(-usableRect.size.x / (Globals.cameraZoom.x * 2) + spriteNode.duckNode.sprite_frames.get_frame_texture("idleDarkBlue", 4).get_width() / 2), floor(usableRect.size.y / (Globals.cameraZoom.y * 2) - spriteNode.duckNode.sprite_frames.get_frame_texture("idleDarkBlue", 4).get_height() / 2))
+	print(spriteNode.position.x * Globals.cameraZoom.x)
+	spriteNode.position.x = spriteNode.position.x / (Globals.cameraZoom.x * 2)
+	spriteNode.position.y = usableRect.size.y / (Globals.cameraZoom.y * 2) - spriteNode.duckNode.sprite_frames.get_frame_texture("idleDarkBlue", 4).get_height() / 2
 	
 	Globals.duckColor = Globals.duckColors[Globals.colorIndex]
 	Globals.beakColor = Globals.beakColors[Globals.colorIndex]
@@ -154,6 +157,9 @@ func settingsChanged():
 	spriteNode.duckNode.tailNode.play("idle" + Globals.duckColor)
 	spriteNode.duckNode.beakNode.play("close" + Globals.beakColor)
 	spriteNode.duckNode.duckQuotes = Globals.selectedQuotes.duplicate(true)
+	
+	DisplayServer.window_set_title(Globals.duckName if len(Globals.duckName) > 0 else "eNTe S Support Animal")
+
 
 func startDrag():
 	if isFlying:

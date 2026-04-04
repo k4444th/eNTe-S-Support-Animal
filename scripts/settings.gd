@@ -55,6 +55,11 @@ func hideSettings():
 func _on_close_button_pressed() -> void:
 	hideSettings()
 
+func _on_name_edit_text_submitted(new_text: String) -> void:
+	Globals.duckName = new_text
+	DisplayServer.window_set_title(new_text if len(new_text) > 0 else "eNTe S Support Animal")
+	settingsChanged.emit()
+
 func _on_size_slider_drag_ended(_value_changed: bool) -> void:
 	Globals.cameraZoom = Vector2(sizeSliderNode.value, sizeSliderNode.value)
 	
