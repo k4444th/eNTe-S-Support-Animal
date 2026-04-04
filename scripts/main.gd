@@ -139,12 +139,12 @@ func closeSettings():
 	setMousePassthroughArea(spriteNode.clickableAreaNode)
 
 func settingsChanged():
-	print(spriteNode.position.x * Globals.cameraZoom.x)
+	var oldZoom = cameraNode.zoom
+	var oldPosition = spriteNode.position
 	cameraNode.zoom = Globals.cameraZoom
 	
 	var usableRect := DisplayServer.screen_get_usable_rect()
-	print(spriteNode.position.x * Globals.cameraZoom.x)
-	spriteNode.position.x = spriteNode.position.x / (Globals.cameraZoom.x * 2)
+	spriteNode.position.x = clamp((oldPosition.x * oldZoom.x) / Globals.cameraZoom.x, - usableRect.size.x / Globals.cameraZoom.x / 2 + spriteNode.duckNode.sprite_frames.get_frame_texture("idleDarkBlue", 4).get_width() / 2, usableRect.size.x / Globals.cameraZoom.x / 2 - spriteNode.duckNode.sprite_frames.get_frame_texture("idleDarkBlue", 4).get_width() / 2)
 	spriteNode.position.y = usableRect.size.y / (Globals.cameraZoom.y * 2) - spriteNode.duckNode.sprite_frames.get_frame_texture("idleDarkBlue", 4).get_height() / 2
 	
 	Globals.duckColor = Globals.duckColors[Globals.colorIndex]
@@ -159,7 +159,6 @@ func settingsChanged():
 	spriteNode.duckNode.duckQuotes = Globals.selectedQuotes.duplicate(true)
 	
 	DisplayServer.window_set_title(Globals.duckName if len(Globals.duckName) > 0 else "eNTe S Support Animal")
-
 
 func startDrag():
 	if isFlying:
@@ -194,8 +193,9 @@ func stopDrag():
 		return
 	
 	var window = get_window()
-	var yPos = floor(window.size.y / (Globals.cameraZoom.y * 2) - spriteNode.duckNode.sprite_frames.get_frame_texture("idleDarkBlue", 4).get_height() / 2)
 	var usableRect := DisplayServer.screen_get_usable_rect()
+	var yPos = floor(window.size.y / (Globals.cameraZoom.y * 2) - spriteNode.duckNode.sprite_frames.get_frame_texture("idleDarkBlue", 4).get_height() / 2)
+	var xPos = clamp(spriteNode.position.x, - usableRect.size.x / Globals.cameraZoom.x / 2 + spriteNode.duckNode.sprite_frames.get_frame_texture("idleDarkBlue", 4).get_width() / 2, usableRect.size.x / Globals.cameraZoom.x / 2 - spriteNode.duckNode.sprite_frames.get_frame_texture("idleDarkBlue", 4).get_width() / 2)
 	
 	var flyTime = pow(abs(spriteNode.position.y - yPos), 0.7) * 0.0175
 	var parachuteAnimationDuration = (1 / spriteNode.parachuteNode.sprite_frames.get_animation_speed("opening")) * spriteNode.parachuteNode.sprite_frames.get_frame_count("opening")
@@ -207,7 +207,7 @@ func stopDrag():
 		spriteNode.parachuteNode.open()
 	
 	var positionTween = get_tree().create_tween().set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_CUBIC)
-	positionTween.tween_property(spriteNode, "position:y", yPos, flyTime)
+	positionTween.tween_property(spriteNode, "position", Vector2(xPos, yPos), flyTime)
 	
 	await positionTween.finished
 	
