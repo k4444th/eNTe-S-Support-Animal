@@ -4,10 +4,15 @@ var open := false
 var settingsPosition: Vector2
 
 @onready var backgroundNode := $Background
+@onready var nameEditNode := $Background/Margin/VBox/HBox2/NameEdit
 @onready var sizeSliderNode := $Background/Margin/VBox/HBox3/SizeSlider
+@onready var duckColorButtonNode := $Background/Margin/VBox/HBox4/DuckColorButton
 @onready var duckColorMenuNode := $Background/Margin/VBox/HBox4/DuckColorMenu
+@onready var parachuteColorButtonNode := $Background/Margin/VBox/HBox5/ParachuteColorButton
 @onready var parachuteColorMenuNode := $Background/Margin/VBox/HBox5/ParachuteColorMenu
+@onready var parachuteBackgroundcolorButtonNode := $Background/Margin/VBox/HBox6/ParachuteBackgroundColorButton
 @onready var parachuteBackgroundcolorMenuNode := $Background/Margin/VBox/HBox6/ParachuteBackgroundColorMenu
+@onready var characterButtonNode := $Background/Margin/VBox/HBox7/CharacterButton
 @onready var characterMenuNode := $Background/Margin/VBox/HBox7/CharacterMenu
 
 signal closeSettings()
@@ -16,7 +21,6 @@ signal settingsChanged()
 func _ready() -> void:
 	var usableRect := DisplayServer.screen_get_usable_rect()
 	
-	sizeSliderNode.value = Globals.cameraZoom.x
 	sizeSliderNode.max_value = usableRect.size.y / (backgroundNode.size.y + 56)
 
 func _input(event: InputEvent) -> void:
@@ -28,6 +32,13 @@ func _input(event: InputEvent) -> void:
 			hideSettings()
 
 func showSettings(clickPosition: Vector2):
+	nameEditNode.text = Globals.duckName
+	sizeSliderNode.value = Globals.cameraZoom.x
+	duckColorButtonNode.text = duckColorMenuNode.get_item_text(Globals.colorIndex)
+	parachuteColorButtonNode.text = parachuteColorMenuNode.get_item_text(Globals.parachuteColorIndex)
+	parachuteBackgroundcolorButtonNode.text = parachuteBackgroundcolorMenuNode.get_item_text(Globals.parachuteBackgroundIndex)
+	characterButtonNode.text = characterMenuNode.get_item_text(Globals.personalityIndex)
+	
 	settingsPosition = clickPosition
 	
 	var usableRect := DisplayServer.screen_get_usable_rect()
@@ -39,6 +50,7 @@ func showSettings(clickPosition: Vector2):
 func hideSettings():
 	visible = false
 	closeSettings.emit()
+	Globals.duckName = nameEditNode.text
 
 func _on_close_button_pressed() -> void:
 	hideSettings()
@@ -58,6 +70,7 @@ func _on_duck_color_button_pressed() -> void:
 
 func _on_duck_color_menu_id_pressed(id: int) -> void:
 	Globals.colorIndex = id
+	duckColorButtonNode.text = duckColorMenuNode.get_item_text(id)
 	settingsChanged.emit()
 
 func _on_parachute_color_button_pressed() -> void:
@@ -65,6 +78,7 @@ func _on_parachute_color_button_pressed() -> void:
 
 func _on_parachute_color_menu_id_pressed(id: int) -> void:
 	Globals.parachuteColorIndex = id
+	parachuteColorButtonNode.text = parachuteColorMenuNode.get_item_text(id)
 	settingsChanged.emit()
 
 func _on_parachute_background_color_button_pressed() -> void:
@@ -72,6 +86,7 @@ func _on_parachute_background_color_button_pressed() -> void:
 
 func _on_parachute_background_color_menu_id_pressed(id: int) -> void:
 	Globals.parachuteBackgroundIndex = id
+	parachuteBackgroundcolorButtonNode.text = parachuteBackgroundcolorMenuNode.get_item_text(id)
 	settingsChanged.emit()
 
 func _on_character_button_pressed() -> void:
@@ -79,4 +94,5 @@ func _on_character_button_pressed() -> void:
 
 func _on_character_menu_id_pressed(id: int) -> void:
 	Globals.personalityIndex = id
+	characterButtonNode.text = characterMenuNode.get_item_text(id)
 	settingsChanged.emit()

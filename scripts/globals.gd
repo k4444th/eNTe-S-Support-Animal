@@ -85,4 +85,6 @@ var parachuteBackground = parachuteBackgrounds[parachuteBackgroundIndex]
 var personalityIndex = 2
 var selectedQuotes = quotes[personalityIndex].duplicate(true)
 
+var duckName = ""
+
 var cameraZoom = Vector2(2.5, 2.5)

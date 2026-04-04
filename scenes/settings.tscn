@@ -7,13 +7,13 @@ script = ExtResource("1_5p8wc")
 
 [node name="Background" type="ColorRect" parent="." unique_id=1556505347]
 offset_right = 210.0
-offset_bottom = 300.0
+offset_bottom = 244.0
 color = Color(0.23529412, 0.25490198, 0.27450982, 1)
 
 [node name="Margin" type="MarginContainer" parent="Background" unique_id=1622241631]
 layout_mode = 0
 offset_right = 210.0
-offset_bottom = 300.0
+offset_bottom = 244.0
 theme_override_constants/margin_left = 10
 theme_override_constants/margin_top = 10
 theme_override_constants/margin_right = 10
